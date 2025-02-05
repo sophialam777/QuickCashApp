@@ -88,7 +88,7 @@
             android:background="@android:color/black"
             android:textColor="@android:color/white"
             android:padding="12dp"
-            android:marginTop="20dp"/>
+            android:paddingTop="20dp"/>
 
         <!-- Terms and Conditions -->
         <TextView
