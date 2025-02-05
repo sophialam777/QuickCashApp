@@ -15,72 +15,60 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:text="@string/quick_cash"
+            android:textStyle="bold"
+            android:textSize="24sp"
             android:padding="16dp"
-            android:shadowColor="@android:color/black"
+            android:textColor="@android:color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:text="@string/quickcash"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp"/>
+            android:shadowColor="@android:color/black"/>
 
-        <!-- Title -->
+        <!-- Create Account Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create_account"
+            android:text="Create account"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:paddingTop="10dp"
-            android:layout_marginTop="12dp"/>
+            android:paddingTop="10dp"/>
 
         <!-- Input Fields -->
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:autofillHints="Name"
-            android:background="@drawable/input_field"
             android:hint="@string/name"
-            android:inputType="text"
-            android:padding="12dp" />
+            android:background="@drawable/input_field"
+            android:padding="12dp"/>
 
         <EditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="emailAddress"
             android:hint="@string/email_address"
             android:background="@drawable/input_field"
             android:padding="12dp"
-            android:inputType="textEmailAddress"
-            android:layout_marginTop="12dp"/>
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/et_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="number"
             android:hint="@string/contact_number"
             android:background="@drawable/input_field"
             android:padding="12dp"
-            android:inputType="phone"
-            android:layout_marginTop="12dp"/>
+            android:inputType="phone"/>
 
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="password"
             android:hint="@string/password_must_be_8_characters"
             android:background="@drawable/input_field"
             android:padding="12dp"
-            android:inputType="textPassword"
-            android:layout_marginTop="12dp"/>
+            android:inputType="textPassword"/>
 
         <!-- Role Dropdown (Spinner) -->
         <Spinner
@@ -88,8 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/input_field"
-            android:padding="12dp"
-            android:layout_marginTop="12dp"/>
+            android:padding="12dp"/>
 
         <!-- Create Account Button -->
         <Button
@@ -101,8 +88,7 @@
             android:background="@android:color/black"
             android:textColor="@android:color/white"
             android:padding="12dp"
-
-            android:layout_marginTop="12dp"/>
+            android:marginTop="20dp"/>
 
         <!-- Terms and Conditions -->
         <TextView
@@ -113,7 +99,7 @@
             android:paddingTop="10dp"
             android:textAlignment="center"/>
 
-
+        <!-- Error Message (Initially Hidden) -->
         <LinearLayout
             android:id="@+id/error_layout"
             android:layout_width="match_parent"

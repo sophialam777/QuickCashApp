@@ -9,4 +9,5 @@
     <string name="invalid_details_please_re_enter_your_information" />
     <string name="error" />
     <string name="name" />
+    <string name="quick_cash">QUICK CASH</string>
 </resources>
