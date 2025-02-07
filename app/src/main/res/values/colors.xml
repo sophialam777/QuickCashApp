@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Error message is red -->
+        <color name="error_red">#FF0000</color>
 </resources>
