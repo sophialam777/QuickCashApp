@@ -84,10 +84,18 @@ public class Registration extends AppCompatActivity {
         // Send confirmation email
         Email.sendConfirmationEmail(email, name);
 
+        //create new account
+        createAccount(name,email,password,contact,role);
+
         Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Registration.this, MainActivity.class);
         startActivity(intent);
     }
+
+    private void createAccount(String name, String email,String password,String contact,String role){
+        userAccount newAcc = new userAccount(name,email,password,contact,role);
+    }
+
 
     private void showError(String message){
         errorMessage.setText(message);
