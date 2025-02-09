@@ -81,6 +81,9 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
+        // Send confirmation email
+        Email.sendConfirmationEmail(email, name);
+
         Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Registration.this, MainActivity.class);
         startActivity(intent);
