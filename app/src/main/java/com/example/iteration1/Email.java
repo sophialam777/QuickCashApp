@@ -14,8 +14,6 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 
-    public static boolean isTest = false;
-    public static boolean testEmailSent = false;
     // Email account: quickcashcsci3130@gmail.com
     // Password: Group5csci3130
     private static final String SMTP_HOST = "smtp.gmail.com";
