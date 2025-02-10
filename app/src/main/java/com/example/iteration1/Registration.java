@@ -67,8 +67,8 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-        if(contact.length() > 15){
-            showError("Contact number must not exceed 15 digits");
+        if(contact.length() > 15 || contact.length() < 10){
+            showError("Contact number must be 10-15 digits");
             return;
         }
 

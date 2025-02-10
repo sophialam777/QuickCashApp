@@ -62,6 +62,32 @@ public class RegistrationUItest {
     }
 
     @Test
+    public void testShortPhoneNumber() {
+        onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText("email@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_contact)).perform(typeText("1"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Pass123!@"), closeSoftKeyboard());
+        onView(withId(R.id.spinner_role)).perform(click());
+        onView(withText("Employee")).perform(click());
+        onView(withId(R.id.btn_create_account)).perform(click());
+
+        onView(withId(R.id.error_message)).check(matches(withText("Contact number must be 10-15 digits")));
+    }
+
+    @Test
+    public void testLongPhoneNumber() {
+        onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText("email@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_contact)).perform(typeText("111111111111111111111111111111111111"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Pass123!@"), closeSoftKeyboard());
+        onView(withId(R.id.spinner_role)).perform(click());
+        onView(withText("Employee")).perform(click());
+        onView(withId(R.id.btn_create_account)).perform(click());
+
+        onView(withId(R.id.error_message)).check(matches(withText("Contact number must be 10-15 digits")));
+    }
+
+    @Test
     public void testShortPasswordShowsError() {
         onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
         onView(withId(R.id.et_email)).perform(typeText("johndoe@example.com"), closeSoftKeyboard());
