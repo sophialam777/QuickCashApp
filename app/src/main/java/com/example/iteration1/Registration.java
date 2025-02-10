@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.iteration1.validator.RegistrationValidator;
 
 
 public class Registration extends AppCompatActivity {
@@ -71,8 +72,7 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-        if(password.length() < 8){
-            showError("Password must be at least 8 characters");
+        if (!validatePassword(password)) {
             return;
         }
 
@@ -96,10 +96,30 @@ public class Registration extends AppCompatActivity {
         userAccount newAcc = new userAccount(name,email,password,contact,role);
     }
 
-
     private void showError(String message){
         errorMessage.setText(message);
         errorLayout.setVisibility(View.VISIBLE);
     }
 
+    public boolean validatePassword(String password) {
+        RegistrationValidator passwordValidator = new RegistrationValidator();
+        if (!passwordValidator.isPasswordLongEnough(password)) {
+            showError("Password must be at least 8 characters");
+            return false;
+        } else if (!passwordValidator.isLowercaseInPassword(password)) {
+            showError("Password must contain at least one lowercase letter");
+            return false;
+        } else if (!passwordValidator.isUppercaseInPassword(password)) {
+            showError("Password must contain at least one uppercase letter");
+            return false;
+        } else if (!passwordValidator.isDigitInPassword(password)) {
+            showError("Password must contain at least one digit");
+            return false;
+        } else if (!passwordValidator.isSymbolInPassword(password)) {
+            showError("Password must contain at least one of the following characters: !, @, #, $, %, or &");
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

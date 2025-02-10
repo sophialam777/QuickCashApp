@@ -32,7 +32,7 @@ public class RegistrationUItest {
         onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
         onView(withId(R.id.et_email)).perform(typeText("abc.123@dal.ca"), closeSoftKeyboard());
         onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
-        onView(withId(R.id.et_password)).perform(typeText("pass123!@"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Pass123!@"), closeSoftKeyboard());
         onView(withId(R.id.spinner_role)).perform(click());
         onView(withText("Employee")).perform(click());
         onView(withId(R.id.btn_create_account)).perform(click());
@@ -53,7 +53,7 @@ public class RegistrationUItest {
         onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
         onView(withId(R.id.et_email)).perform(typeText("invalidemail"), closeSoftKeyboard());
         onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
-        onView(withId(R.id.et_password)).perform(typeText("password123"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Pass123!@"), closeSoftKeyboard());
         onView(withId(R.id.spinner_role)).perform(click());
         onView(withText("Employee")).perform(click());
         onView(withId(R.id.btn_create_account)).perform(click());
@@ -66,11 +66,63 @@ public class RegistrationUItest {
         onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
         onView(withId(R.id.et_email)).perform(typeText("johndoe@example.com"), closeSoftKeyboard());
         onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
-        onView(withId(R.id.et_password)).perform(typeText("12345"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Pass1@"), closeSoftKeyboard());
         onView(withId(R.id.spinner_role)).perform(click());
         onView(withText("Employee")).perform(click());
         onView(withId(R.id.btn_create_account)).perform(click());
 
         onView(withId(R.id.error_message)).check(matches(withText("Password must be at least 8 characters")));
+    }
+
+    @Test
+    public void testPasswordWithoutLowercaseShowsError() {
+        onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText("johndoe@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("PASSWORD1@"), closeSoftKeyboard());
+        onView(withId(R.id.spinner_role)).perform(click());
+        onView(withText("Employee")).perform(click());
+        onView(withId(R.id.btn_create_account)).perform(click());
+
+        onView(withId(R.id.error_message)).check(matches(withText("Password must contain at least one lowercase letter")));
+    }
+
+    @Test
+    public void testPasswordWithoutUppercaseShowsError() {
+        onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText("johndoe@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("password1@"), closeSoftKeyboard());
+        onView(withId(R.id.spinner_role)).perform(click());
+        onView(withText("Employee")).perform(click());
+        onView(withId(R.id.btn_create_account)).perform(click());
+
+        onView(withId(R.id.error_message)).check(matches(withText("Password must contain at least one uppercase letter")));
+    }
+
+    @Test
+    public void testPasswordWithoutDigitShowsError() {
+        onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText("johndoe@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Password@"), closeSoftKeyboard());
+        onView(withId(R.id.spinner_role)).perform(click());
+        onView(withText("Employee")).perform(click());
+        onView(withId(R.id.btn_create_account)).perform(click());
+
+        onView(withId(R.id.error_message)).check(matches(withText("Password must contain at least one digit")));
+    }
+
+    @Test
+    public void testPasswordWithoutSymbolShowsError() {
+        onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText("johndoe@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.spinner_role)).perform(click());
+        onView(withText("Employee")).perform(click());
+        onView(withId(R.id.btn_create_account)).perform(click());
+
+        onView(withId(R.id.error_message)).check(matches(withText("Password must contain at least one of the following characters: !, @, #, $, %, or &")));
     }
 }

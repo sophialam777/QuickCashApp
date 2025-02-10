@@ -22,7 +22,7 @@ public class RegistrationUnitTest {
 
     @Test
     public void checkIfEmailIsValid() {
-        assertTrue(validator.isValidEmailAddress("abc123@dal.ca"));;
+        assertTrue(validator.isValidEmailAddress("abc123@dal.ca"));
     }
 
     @Test
@@ -41,16 +41,6 @@ public class RegistrationUnitTest {
     }
 
     @Test
-    public void checkIfPasswordIsValid() {
-        assertTrue(validator.isValidPassword("password123"));
-    }
-
-    @Test
-    public void checkIfPasswordIsNotValid() {
-        assertFalse(validator.isValidPassword("pass"));
-    }
-
-    @Test
     public void checkIfRoleIsValid() {
         assertTrue(validator.isValidRole("Employee"));
         assertTrue(validator.isValidRole("Employer"));
@@ -59,6 +49,41 @@ public class RegistrationUnitTest {
     @Test
     public void checkIfRoleIsNotValid() {
         assertFalse(validator.isValidRole("Select Role"));
+    }
+
+    @Test
+    public void checkIfPasswordIsValid() {
+        String password = "Password1@";
+        assertTrue(validator.isPasswordLongEnough(password));
+        assertTrue(validator.isLowercaseInPassword(password));
+        assertTrue(validator.isUppercaseInPassword(password));
+        assertTrue(validator.isDigitInPassword(password));
+        assertTrue(validator.isSymbolInPassword(password));
+    }
+
+    @Test
+    public void checkIfPasswordIsTooShort() {
+        assertFalse(validator.isPasswordLongEnough("Pass1@"));
+    }
+
+    @Test
+    public void checkIfPasswordNeedsLowercase() {
+        assertFalse(validator.isLowercaseInPassword("PASSWORD1@"));
+    }
+
+    @Test
+    public void checkIfPasswordNeedsUppercase() {
+        assertFalse(validator.isUppercaseInPassword("password1@"));
+    }
+
+    @Test
+    public void checkIfPasswordNeedsDigit() {
+        assertFalse(validator.isDigitInPassword("Password@"));
+    }
+
+    @Test
+    public void checkIfPasswordNeedsSymbol() {
+        assertFalse(validator.isSymbolInPassword("Password1"));
     }
 }
 
