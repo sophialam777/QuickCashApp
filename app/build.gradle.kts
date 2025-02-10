@@ -43,6 +43,7 @@ dependencies {
     // Add JavaMail dependencies
     implementation(libs.android.mail)
     implementation(libs.android.activation)
+    implementation(libs.espresso.intents)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
