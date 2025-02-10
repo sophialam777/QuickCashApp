@@ -1,12 +1,19 @@
 package com.example.iteration1;
 
+import static org.robolectric.Shadows.shadowOf;
+
+import android.os.Looper;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import static org.junit.Assert.*;
 
 import com.example.iteration1.validator.RegistrationValidator;
 
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class RegistrationUnitTest {
     private RegistrationValidator validator;
 
@@ -85,5 +92,19 @@ public class RegistrationUnitTest {
     public void checkIfPasswordNeedsSymbol() {
         assertFalse(validator.isSymbolInPassword("Password1"));
     }
-}
 
+    // New test case for verifying that a confirmation email is sent upon successful registration.
+    @Test
+    public void testConfirmationEmailSent() {
+        // Set test mode so that Email.sendConfirmationEmail simulates success.
+        Email.isTest = true;
+        // Reset the test flag before sending the email.
+        Email.testEmailSent = false;
+        // Trigger sending the confirmation email with dummy data.
+        Email.sendConfirmationEmail("test@example.com", "TestUser");
+        // Flush the main looper so that any pending tasks complete.
+        shadowOf(Looper.getMainLooper()).idle();
+        // Verify that the email was "sent" successfully.
+        assertTrue("Confirmation email should be sent successfully", Email.testEmailSent);
+    }
+}
