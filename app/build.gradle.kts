@@ -35,6 +35,9 @@ android {
 }
 
 dependencies {
+    testImplementation("org.robolectric:robolectric:4.9")
+    testImplementation("org.robolectric:robolectric:4.8.2")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

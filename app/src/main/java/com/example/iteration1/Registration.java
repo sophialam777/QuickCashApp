@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.validator.RegistrationValidator;
 
-
 public class Registration extends AppCompatActivity {
     private EditText etName, etEmail, etContact, etPassword;
     private Spinner spinnerRole;
@@ -38,8 +37,7 @@ public class Registration extends AppCompatActivity {
         errorLayout = findViewById(R.id.error_layout);
         errorMessage = findViewById(R.id.error_message);
 
-
-        //Takes the string array from role_options in strings.xml and binds it to the spinner
+        // Bind the role options from strings.xml to the spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.role_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRole.setAdapter(adapter);
@@ -67,10 +65,11 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-        if(contact.length() < 10){
-            showError("Contact number must be at least 10 digits");
+        if(contact.length() > 15 || contact.length() < 10){
+            showError("Contact number must be 10-15 digits");
             return;
         }
+
 
         if (!validatePassword(password)) {
             return;
@@ -84,16 +83,16 @@ public class Registration extends AppCompatActivity {
         // Send confirmation email
         Email.sendConfirmationEmail(email, name);
 
-        //create new account
-        createAccount(name,email,password,contact,role);
+        // Create new account
+        createAccount(name, email, password, contact, role);
 
         Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Registration.this, MainActivity.class);
         startActivity(intent);
     }
 
-    private void createAccount(String name, String email,String password,String contact,String role){
-        userAccount newAcc = new userAccount(name,email,password,contact,role);
+    private void createAccount(String name, String email, String password, String contact, String role){
+        userAccount newAcc = new userAccount(name, email, password, contact, role);
     }
 
     private void showError(String message){

@@ -14,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 
+    public static boolean isTest = false;
+    public static boolean testEmailSent = false;
     // Email account: quickcashcsci3130@gmail.com
     // Password: Group5csci3130
     private static final String SMTP_HOST = "smtp.gmail.com";
@@ -21,8 +23,19 @@ public class Email {
     private static final String EMAIL = "quickcashcsci3130@gmail.com";
     private static final String PASSWORD = "nkdh mtrm czrh yfar";
 
+    // Flag for testing purposes: will be set to true if the email is sent successfully.
+    public static boolean testEmailSent = false;
+
+    // Flag indicating if the app is running in test mode.
+    public static boolean isTest = false;
+
     public static void sendConfirmationEmail(String recipientEmail, String userName) {
-        new SendEmailTask().execute(recipientEmail, userName);
+        if (isTest) {
+            // In test mode, simulate a successful email send.
+            testEmailSent = true;
+        } else {
+            new SendEmailTask().execute(recipientEmail, userName);
+        }
     }
 
     private static class SendEmailTask extends AsyncTask<String, Void, Boolean> {
@@ -65,6 +78,8 @@ public class Email {
 
         @Override
         protected void onPostExecute(Boolean success) {
+            // Set the test flag for verification in tests
+            Email.testEmailSent = success;
             if (success) {
                 Log.i("EmailUtil", "Email sent successfully");
             } else {
