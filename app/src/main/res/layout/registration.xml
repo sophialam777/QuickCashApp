@@ -11,6 +11,8 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+
+
         <!-- Header -->
         <TextView
             android:layout_width="wrap_content"

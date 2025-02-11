@@ -14,4 +14,5 @@
     <string name="error">Error:</string>
     <string name="name" />
     <string name="quick_cash">QUICK CASH</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>
