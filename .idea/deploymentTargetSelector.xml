@@ -8,6 +8,9 @@
       <SelectionState runConfigName="csci3130_winter2025_group5.Iteration1.app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="testValidRegistration()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
