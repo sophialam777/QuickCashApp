@@ -133,9 +133,9 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
                             // Login successful
                             Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                            //Intent intent = new Intent(Login.this, Registration.class);
-                            //startActivity(intent);
-                            //finish();
+                            Intent intent = new Intent(Login.this, Registration.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 } else {
