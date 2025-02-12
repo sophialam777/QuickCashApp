@@ -20,6 +20,7 @@ public class userAccount {
     public String getEmail(){
         return this.email;
     }
+    public String getPassword(){return this.password;}
     public String getContact(){
         return this.contact;
     }
@@ -29,6 +30,7 @@ public class userAccount {
     public String getUserID(){
         return this.userID;
     }
+
 
 
 }

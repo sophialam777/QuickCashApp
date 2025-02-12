@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -35,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.database)
     implementation(libs.firebase.database)
     testImplementation("org.robolectric:robolectric:4.9")
     testImplementation("org.robolectric:robolectric:4.8.2")

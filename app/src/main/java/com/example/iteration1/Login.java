@@ -86,78 +86,73 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
         login.setOnClickListener(v -> validateLogin());
     }
-
-    private void validateLogin(){
-        String loginEmail = email.getText().toString().toLowerCase().trim();
+    private void validateLogin() {
+        String loginEmail = email.getText().toString().trim().toLowerCase();
         String loginPassword = password.getText().toString().trim();
         String loginRole = roleSpinner.getSelectedItem().toString();
-        String userID;
 
         errorLayout.setVisibility(View.GONE);
-
-        // connect to the firebase db
         connectDB();
 
-        if(TextUtils.isEmpty(loginPassword) || TextUtils.isEmpty(loginEmail)){
+        // Basic input validation
+        if (TextUtils.isEmpty(loginEmail) || TextUtils.isEmpty(loginPassword)) {
             showError("All input fields need to be filled");
             return;
         }
 
-        if(loginRole.equals("Select a role")){
+        if (loginRole.equals("Select a role")) {
             showError("Please select a role");
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(loginEmail).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail).matches()) {
             showError("Invalid email format");
             return;
         }
 
-        // check if email is linked to an account
-        /*dbref.orderByChild("email").equalTo(loginEmail).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot){
-                if(snapshot.exists()){ // if true, email has an account
-
-                    userAccount user = snapshot.getValue(userAccount.class);
-                    Log.d(TAG, user.getName());
-                    // check if password is correct
-
-                    // check if role is correct
-
-                } else {
-                    showError("Email is not linked to an account");
-                    // successful login message still displays...
-                    return;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error){}
-        });*/
-
-        dbref.addValueEventListener(new ValueEventListener(){
-
+        // Query Firebase Database to check if the email exists
+        dbref.orderByChild("email").equalTo(loginEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot daSnapshot : snapshot.getChildren()){
-                    userAccount user = daSnapshot.getValue(userAccount.class);
-                    if(user.getEmail().equals(loginEmail)){
+                if (snapshot.exists()) {
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        userAccount user = userSnapshot.getValue(userAccount.class);
 
+                        if (user != null) {
+                            // Check if password matches
+                            if (!user.getPassword().equals(loginPassword)) {
+                                showError("Incorrect password");
+                                return;
+                            }
+
+                            // Check if role matches
+                            if (!user.getRole().equals(loginRole)) {
+                                showError("Incorrect role selected");
+                                return;
+                            }
+
+                            // Login successful
+                            Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_LONG).show();
+                            //Intent intent = new Intent(Login.this, Registration.class);
+                            //startActivity(intent);
+                            //finish();
+                        }
                     }
+                } else {
+                    showError("Email is not linked to an account");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                showError("Database error: " + error.getMessage());
             }
-        })
-
-        Toast.makeText(this, "Login Successful!", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(Login.this, MainActivity.class);
-        //startActivity(intent); this causes an error
+        });
     }
+
+
+
+
 
     private void showError(String message){
         errorMessage.setText(message);
