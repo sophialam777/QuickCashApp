@@ -141,9 +141,11 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot daSnapshot : snapshot.getChildren()){
-                    userAccount user = daSnapshot.getValue(userAccount.class);
-                    if(user.getEmail().equals(loginEmail)){
+                    if(snapshot.exists()){
+                        userAccount user = daSnapshot.getValue(userAccount.class);
+                        if(user.getEmail().equals(loginEmail)){
 
+                        }
                     }
                 }
             }
@@ -152,7 +154,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        })
+        });
 
         Toast.makeText(this, "Login Successful!", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(Login.this, MainActivity.class);
