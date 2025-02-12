@@ -3,6 +3,7 @@ package com.example.iteration1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,8 +17,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.validator.RegistrationValidator;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Registration extends AppCompatActivity {
+
+    FirebaseDatabase database;
+    DatabaseReference dbref;
+    String DBURL = "https://quickcash3130-4607d-default-rtdb.firebaseio.com/";
+
     private EditText etName, etEmail, etContact, etPassword;
     private Spinner spinnerRole;
     private LinearLayout errorLayout;
@@ -87,12 +95,23 @@ public class Registration extends AppCompatActivity {
         createAccount(name, email, password, contact, role);
 
         Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(Registration.this, MainActivity.class);
+        Intent intent = new Intent(Registration.this, Login.class);
         startActivity(intent);
     }
 
     private void createAccount(String name, String email, String password, String contact, String role){
-        userAccount newAcc = new userAccount(name, email, password, contact, role);
+
+        // connect to the firebase
+        connectDB();
+
+        // give the user an ID and create their account
+        String userID = dbref.child("users").push().getKey();
+        userAccount newAcc = new userAccount(name, email.toLowerCase(), password, contact, role, userID);
+
+        // check that the ID isn't null and add the account to the firebase
+        if(userID != null) {
+            dbref.child("users").child(userID).setValue(newAcc);
+        }
     }
 
     private void showError(String message){
@@ -120,5 +139,10 @@ public class Registration extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    private void connectDB(){
+        database = FirebaseDatabase.getInstance(DBURL);
+        dbref = database.getReference();
     }
 }
