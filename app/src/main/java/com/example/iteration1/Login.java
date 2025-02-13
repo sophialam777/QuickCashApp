@@ -110,6 +110,28 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             return;
         }
 
+        //Check password validation
+        if (!loginPassword.matches(".*[a-z].*")) {
+            showError("Password must contain at least one lowercase letter");
+            return;
+        }
+        if (!loginPassword.matches(".*[A-Z].*")) {
+            showError("Password must contain at least one uppercase letter");
+            return;
+        }
+        if (!loginPassword.matches(".*[0-9].*")) {
+            showError("Password must contain at least one digit");
+            return;
+        }
+        if (!loginPassword.matches(".*[!@#$%&].*")) {
+            showError("Password must contain at least one of the following characters: !, @, #, $, %, or &");
+            return;
+        }
+        if (loginPassword.length() < 8) {
+            showError("Password must be at least 8 characters");
+            return;
+        }
+
         // Query Firebase Database to check if the email exists
         dbref.orderByChild("email").equalTo(loginEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
