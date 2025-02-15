@@ -1,7 +1,5 @@
 package com.example.iteration1;
 
-import android.app.Activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,11 +11,21 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.iteration1.dataBase_CRUD.fireBase_CRUD;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
 public class ForgotPassword extends AppCompatActivity {
 
     private EditText etEmail;
     private Button btnSendCode;
     private TextView tvErrorMessage, tvLogin;
+
+    String DBURL = "https://quickcash3130-4607d-default-rtdb.firebaseio.com/";
+    fireBase_CRUD crud;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +36,8 @@ public class ForgotPassword extends AppCompatActivity {
         btnSendCode = findViewById(R.id.btnSendCode);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvLogin = findViewById(R.id.tvLogin);
+        //create crud object
+        crud = new fireBase_CRUD(FirebaseDatabase.getInstance(DBURL));
 
         btnSendCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,9 +74,11 @@ public class ForgotPassword extends AppCompatActivity {
         });
     }
 
+
     // Simulated email checking function
     private boolean checkIfEmailExists(String email) {
-        // TODO: Implement actual email verification with backend
-        return email.equals("test@example.com"); // Dummy check
+        //get the list of existing emails from crud
+        ArrayList<String> emailList = crud.getEmailList();
+        return emailList.contains(email);
     }
 }
