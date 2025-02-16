@@ -30,13 +30,14 @@
 
         <!-- Create Account Title -->
         <TextView
+            android:id="@+id/tvCreateAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create account"
-            android:textStyle="bold"
-            android:textSize="25sp"
+            android:layout_marginBottom="30dp"
             android:paddingTop="10dp"
-            android:layout_marginBottom="30dp"/>
+            android:text="Create account"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <!-- Input Fields -->
 
