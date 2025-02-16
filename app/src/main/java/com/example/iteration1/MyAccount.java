@@ -29,7 +29,7 @@ public class MyAccount extends AppCompatActivity {
 
     public void initializeAccountInfo(){
         TextView userInfo = findViewById(R.id.user_info);
-        String info = "Name: " + UserSession.name + "\nEmail: " + UserSession.email + "\nContact Number: " + UserSession.contact + "\nRole" + UserSession.role + "\n";
+        String info = "Name: " + UserSession.name + "\nEmail: " + UserSession.email + "\nContact Number: " + UserSession.contact + "\nRole: " + UserSession.role + "\n";
         userInfo.setText(info);
     }
 
