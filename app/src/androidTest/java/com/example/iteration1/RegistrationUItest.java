@@ -4,10 +4,14 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
+import java.util.Random;
 
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -29,19 +33,28 @@ public class RegistrationUItest {
 
     @Test
     public void testValidRegistration() {
+        // Create a random email
+        String randomEmail = generateRandomEmail();
+
         onView(withId(R.id.et_name)).perform(typeText("John Doe"), closeSoftKeyboard());
-        onView(withId(R.id.et_email)).perform(typeText("abc.123@dal.ca"), closeSoftKeyboard());
+        onView(withId(R.id.et_email)).perform(typeText(randomEmail), closeSoftKeyboard());
         onView(withId(R.id.et_contact)).perform(typeText("1234567890"), closeSoftKeyboard());
         onView(withId(R.id.et_password)).perform(typeText("Pass123!@"), closeSoftKeyboard());
         onView(withId(R.id.spinner_role)).perform(click());
         onView(withText("Employee")).perform(click());
         onView(withId(R.id.btn_create_account)).perform(click());
-        onView(withId(R.id.main)).check(matches(isDisplayed()));
-
-
+        onView(withId(R.id.error_layout)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
     }
 
+    // Helper method to generate a random email with @dal.ca
+    private String generateRandomEmail() {
+        Random random = new Random();
+        // Generate a random number to append to the email
+        int randomNumber = random.nextInt(10000);
+        // Return the random email address
+        return "user" + randomNumber + "@dal.ca";
+    }
     @Test
     public void testEmptyFieldsShowError() {
         onView(withId(R.id.btn_create_account)).perform(click());

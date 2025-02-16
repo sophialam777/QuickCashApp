@@ -5,7 +5,13 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testforgotpasswordScreen()">
+      <SelectionState runConfigName="RegistrationUItest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testValidRegistration()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testEmailNotRegisteredError()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

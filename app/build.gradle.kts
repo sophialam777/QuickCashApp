@@ -37,8 +37,12 @@ android {
 
 dependencies {
     implementation(libs.firebase.database)
-    implementation(libs.firebase.database)
+
+    implementation(libs.firebase.auth)
+    implementation(libs.uiautomator)
+
     testImplementation("org.robolectric:robolectric:4.11")
+
 
 
     implementation(libs.appcompat)
