@@ -21,16 +21,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.EventListener;
-
-public class Login extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class Login extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     FirebaseDatabase database;
     DatabaseReference dbref;
@@ -48,16 +44,18 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.login);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         initializeLoginElements();
         initializeOnClickListener();
     }
 
-    private void initializeLoginElements(){
+    private void initializeLoginElements() {
         email = findViewById(R.id.login_email);
         password = findViewById(R.id.login_password);
         roleSpinner = findViewById(R.id.login_role);
@@ -69,16 +67,14 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
     private void initializeOnClickListener() {
         login = findViewById(R.id.login_button);
-        Button registerButton = findViewById(R.id.register_link); // The Register button in your layout
-        TextView forgotPasswordText = findViewById(R.id.forgotPassword); // The Forgot Password text in your layout
+        Button registerButton = findViewById(R.id.register_link);
+        TextView forgotPasswordText = findViewById(R.id.forgotPassword);
 
-        // Register Button click listener
         registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, Registration.class);
             startActivity(intent);
         });
 
-        // Forgot Password click listener
         forgotPasswordText.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, ForgotPassword.class);
             startActivity(intent);
@@ -86,6 +82,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
         login.setOnClickListener(v -> validateLogin());
     }
+
     private void validateLogin() {
         String loginEmail = email.getText().toString().trim().toLowerCase();
         String loginPassword = password.getText().toString().trim();
@@ -96,44 +93,44 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
         // Basic input validation
         if (TextUtils.isEmpty(loginEmail) || TextUtils.isEmpty(loginPassword)) {
-            showError("All input fields need to be filled");
+            showError("Please fill out all required fields.");
             return;
         }
 
         if (loginRole.equals("Select a role")) {
-            showError("Please select a role");
+            showError("A user role must be selected.");
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail).matches()) {
-            showError("Invalid email format");
+            showError("Please enter a valid email address.");
             return;
         }
 
-        //Check password validation
+        // Check password validation
         if (!loginPassword.matches(".*[a-z].*")) {
-            showError("Password must contain at least one lowercase letter");
+            showError("Your password must have at least one lowercase character.");
             return;
         }
         if (!loginPassword.matches(".*[A-Z].*")) {
-            showError("Password must contain at least one uppercase letter");
+            showError("Your password must include at least one uppercase character.");
             return;
         }
         if (!loginPassword.matches(".*[0-9].*")) {
-            showError("Password must contain at least one digit");
+            showError("Your password must include at least one numeric digit.");
             return;
         }
         if (!loginPassword.matches(".*[!@#$%&].*")) {
-            showError("Password must contain at least one of the following characters: !, @, #, $, %, or &");
+            showError("Your password must have at least one special character: !, @, #, $, %, or &.");
             return;
         }
         if (loginPassword.length() < 8) {
-            showError("Password must be at least 8 characters");
+            showError("Your password must be at least 8 characters long.");
             return;
         }
 
         // Query Firebase Database to check if the email exists
-        dbref.orderByChild("email").equalTo(loginEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbref.orderByChild("email").equalTo(loginEmail).addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -143,13 +140,13 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
                         if (user != null) {
                             // Check if password matches
                             if (!user.getPassword().equals(loginPassword)) {
-                                showError("Incorrect password");
+                                showError("The password you entered is incorrect.");
                                 return;
                             }
 
                             // Check if role matches
                             if (!user.getRole().equals(loginRole)) {
-                                showError("Incorrect role selected");
+                                showError("The role you selected does not match your account.");
                                 return;
                             }
 
@@ -161,18 +158,18 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
                         }
                     }
                 } else {
-                    showError("Email is not linked to an account");
+                    showError("No account is associated with the provided email.");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                showError("Database error: " + error.getMessage());
+                showError("An error occurred while accessing the database: " + error.getMessage());
             }
         });
     }
 
-    private void showError(String message){
+    private void showError(String message) {
         errorMessage.setText(message);
         errorLayout.setVisibility(View.VISIBLE);
     }
@@ -183,7 +180,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
-    private void connectDB(){
+    private void connectDB() {
         database = FirebaseDatabase.getInstance(DBURL);
         dbref = database.getReference("users");
     }
