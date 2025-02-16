@@ -31,6 +31,12 @@
         <activity
             android:name=".ForgotPassword"
             android:exported="true" />
+        <activity
+            android:name=".homepage"
+            android:exported="true" />
+        <activity
+            android:name=".MyAccount"
+            android:exported="true" />
     </application>
 
 </manifest>
