@@ -29,6 +29,16 @@ public class LoginUITest {
     public ActivityScenarioRule<Login> activityRule = new ActivityScenarioRule<>(Login.class);
 
     @Test
+    public void testforgotpasswordScreen() {
+        onView(withId(R.id.forgotPassword)).perform(click());
+        onView(withId(R.id.tvForgotPassword)).check(matches(withText("Forgot password?")));
+    }
+    @Test
+    public void testNavigateToRegistration() {
+        onView(withId(R.id.register_link)).perform(click());
+        onView(withId(R.id.tvCreateAccount)).check(matches(withText("Create account")));
+    }
+    @Test
     public void testEmailRegistrationStatus() throws InterruptedException {
         final String testEmail = "mt769340@dal.ca";
 
