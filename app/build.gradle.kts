@@ -38,7 +38,6 @@ android {
 dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.database)
-    implementation(libs.firebase.common)
     testImplementation("org.robolectric:robolectric:4.11")
 
 
