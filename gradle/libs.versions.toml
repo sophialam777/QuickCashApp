@@ -13,8 +13,13 @@ constraintlayout = "2.2.0"
 espressoIntents = "3.6.1"
 firebaseDatabase = "21.0.0"
 googleGmsGoogleServices = "4.4.2"
+<<<<<<< gradle/libs.versions.toml
+firebaseCommon = "21.0.0"
 firebaseAuth = "23.2.0"
 uiautomator = "2.3.0"
+=======
+firebaseCommon = "21.0.0"
+>>>>>>> gradle/libs.versions.toml
 
 [libraries]
 android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidMail" }
@@ -29,8 +34,12 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+<<<<<<< gradle/libs.versions.toml
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+=======
+firebase-common = { group = "com.google.firebase", name = "firebase-common", version.ref = "firebaseCommon" }
+>>>>>>> gradle/libs.versions.toml
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
