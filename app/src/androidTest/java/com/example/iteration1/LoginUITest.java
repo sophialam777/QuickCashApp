@@ -101,6 +101,9 @@ public class LoginUITest {
         onView(withId(R.id.error_message)).check(matches(withText("All input fields need to be filled")));
     }
 
+
+
+
     @Test
     public void testShortPasswordShowsError() {
         //Provide a password that is too short

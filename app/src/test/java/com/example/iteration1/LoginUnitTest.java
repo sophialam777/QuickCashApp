@@ -72,6 +72,19 @@ public class LoginUnitTest {
     }
 
     @Test
+    public void testRoleValidationForEmployee() {
+        userAccount mockUser = createMockUser("test@example.com", "Pass123!@", "Employee");
+        mockDatabaseQueryForUser("test@example.com", mockUser);
+        assertFalse(validator.isLoginSuccessful("test@example.com", "Pass123!@"));
+    }
+
+    @Test
+    public void testRoleValidationForEmployer() {
+        userAccount mockUser = createMockUser("test@example.com", "Pass123!@", "Employer");
+        mockDatabaseQueryForUser("test@example.com", mockUser);
+        assertFalse(validator.isLoginSuccessful("test@example.com", "Pass123!@"));
+    }
+    @Test
     public void checkIfLoginIsSuccessful() {
         String email = "mt769340@dal.ca";
         String password = "passworD123!";
@@ -94,6 +107,8 @@ public class LoginUnitTest {
         assertFalse(validator.doesUserExist(email)); //Returns false due to role mismatch
     }
 
+
+
     private userAccount createMockUser(String email, String password, String role) {
         userAccount mockUser = mock(userAccount.class);
         when(mockUser.getEmail()).thenReturn(email);
@@ -101,6 +116,7 @@ public class LoginUnitTest {
         when(mockUser.getRole()).thenReturn(role);
         return mockUser;
     }
+
 
     private void mockDatabaseQueryForUser(String email, userAccount mockUser) {
         when(mockQuery.equalTo(email)).thenReturn(mockQuery);
@@ -139,7 +155,23 @@ public class LoginUnitTest {
     }
 
     @Test
+    public void testPasswordWithOnlySymbols() {
+        assertFalse(validator.isPasswordValid("!@#$%^&*"));
+    }
+
+    @Test
+    public void testPasswordWithOnlyDigits() {
+        assertFalse(validator.isPasswordValid("12345678"));
+    }
+
+    @Test
+    public void testPasswordWithOnlyUppercase() {
+        assertFalse(validator.isPasswordValid("PASSWORD"));
+    }
+
+    @Test
     public void checkIfLoginFailsWithInvalidCredentials() {
         assertFalse(validator.isLoginSuccessful("test@example.com", "WrongPassword1@"));
     }
+
 }

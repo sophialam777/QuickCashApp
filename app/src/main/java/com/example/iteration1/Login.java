@@ -172,10 +172,6 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
         });
     }
 
-
-
-
-
     private void showError(String message){
         errorMessage.setText(message);
         errorLayout.setVisibility(View.VISIBLE);
