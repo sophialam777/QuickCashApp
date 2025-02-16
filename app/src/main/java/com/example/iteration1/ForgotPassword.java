@@ -73,7 +73,6 @@ public class ForgotPassword extends AppCompatActivity {
                                         Toast.makeText(ForgotPassword.this, "Reset code sent! Check your email.", Toast.LENGTH_SHORT).show();
                                         tvErrorMessage.setVisibility(View.GONE);
 
-
                                         Intent intent = new Intent(ForgotPassword.this, Login.class);
                                         intent.putExtra("email", email);
                                         startActivity(intent);
@@ -107,7 +106,6 @@ public class ForgotPassword extends AppCompatActivity {
 
     // Simulated email checking function
     private boolean checkIfEmailExists(String email) {
-
         ArrayList<String> emailList = crud.getEmailList();
         return emailList.contains(email);
     }

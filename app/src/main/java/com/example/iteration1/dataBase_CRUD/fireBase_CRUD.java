@@ -13,7 +13,6 @@ public class fireBase_CRUD {
     ArrayList<String> emailList;
     private final FirebaseDatabase database;
     private DatabaseReference dbRef = null;
-
     private DatabaseReference userRef = null;
 
     public fireBase_CRUD (FirebaseDatabase database) {

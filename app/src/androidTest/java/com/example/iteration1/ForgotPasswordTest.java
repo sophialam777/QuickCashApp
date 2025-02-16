@@ -13,6 +13,8 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
+import androidx.test.uiautomator.Until;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +58,25 @@ public class ForgotPasswordTest {
             String actualMessage = errorMessage.getText();
             assertTrue("The error message is incorrect. Expected: " + expectedMessage + ", but got: " + actualMessage,
                     actualMessage.equals(expectedMessage));
+        }
+    }
+
+    @Test
+    public void testRegisteredEmail() throws UiObjectNotFoundException {
+        // Start ForgotPassword Activity using the ActivityScenario API
+        try (ActivityScenario<ForgotPassword> scenario = ActivityScenario.launch(ForgotPassword.class)) {
+
+            // Find email input field and enter an unregistered email address
+            UiObject emailField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/etEmail"));
+            emailField.setText("abc.1234@dal.ca"); //registered email
+
+            // Find the send button and click it
+            UiObject sendButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/btnSendCode"));
+            sendButton.clickAndWaitForNewWindow();
+
+            // Wait and test for the loginScreen to appear
+            UiObject loginLabel = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_text"));
+            assertTrue(loginLabel.exists());
         }
     }
 }
