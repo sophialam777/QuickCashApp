@@ -43,6 +43,7 @@ dependencies {
 
     testImplementation("org.robolectric:robolectric:4.11")
 
+    testImplementation("org.mockito:mockito-core:5.6.0")
 
 
     implementation(libs.appcompat)
