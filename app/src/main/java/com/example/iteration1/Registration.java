@@ -17,14 +17,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.validator.RegistrationValidator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
 
 public class Registration extends AppCompatActivity {
 
-    FirebaseDatabase database;
-    DatabaseReference dbref;
-    String DBURL = "https://quickcash3130-4607d-default-rtdb.firebaseio.com/";
+    private FirebaseAuth mAuth; // FirebaseAuth instance
+    private FirebaseDatabase database;
+    private DatabaseReference dbref;
+    private String DBURL = "https://quickcash3130-4607d-default-rtdb.firebaseio.com/";
 
     private EditText etName, etEmail, etContact, etPassword;
     private Spinner spinnerRole;
@@ -35,6 +42,9 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration); // Links to the registration page layout
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         // Initialize views
         etName = findViewById(R.id.et_name);
@@ -78,7 +88,6 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-
         if (!validatePassword(password)) {
             return;
         }
@@ -88,30 +97,56 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-        // Send confirmation email
-        Email.sendConfirmationEmail(email, name);
-
-        // Create new account
+        // Create the account using Firebase Authentication
         createAccount(name, email, password, contact, role);
-
-        Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(Registration.this, Login.class);
-        startActivity(intent);
     }
 
     private void createAccount(String name, String email, String password, String contact, String role){
-
-        // connect to the firebase
+        // Connect to the Firebase Realtime Database
         connectDB();
 
-        // give the user an ID and create their account
-        String userID = dbref.child("users").push().getKey();
-        userAccount newAcc = new userAccount(name, email.toLowerCase(), password, contact, role, userID);
+        // Register user using Firebase Authentication
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // User account created successfully
+                            FirebaseUser user = mAuth.getCurrentUser(); // Get the logged-in user
 
-        // check that the ID isn't null and add the account to the firebase
-        if(userID != null) {
-            dbref.child("users").child(userID).setValue(newAcc);
-        }
+                            // Use Firebase Database to store additional information
+                            String userID = user.getUid();
+                            userAccount newAcc = new userAccount(name, email.toLowerCase(), password, contact, role, userID);
+
+                            // Add the user details to Firebase Realtime Database
+                            dbref.child("users").child(userID).setValue(newAcc)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                // Success, user added to database
+                                                Toast.makeText(Registration.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
+
+
+                                                Email.sendConfirmationEmail(email, name);
+
+                                                // Navigate to Login screen
+                                                Intent intent = new Intent(Registration.this, Login.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                // Failed to add user to database
+                                                showError("Failed to save user data. Please try again.");
+                                            }
+                                        }
+                                    });
+                        } else {
+                            // Failed to create user
+                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed";
+                            showError(errorMessage);
+                        }
+                    }
+                });
     }
 
     private void showError(String message){

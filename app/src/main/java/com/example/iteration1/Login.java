@@ -86,6 +86,7 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
         login.setOnClickListener(v -> validateLogin());
     }
+
     private void validateLogin() {
         String loginEmail = email.getText().toString().trim().toLowerCase();
         String loginPassword = password.getText().toString().trim();
@@ -133,7 +134,12 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
 
                             // Login successful
                             Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(Login.this, Registration.class);
+
+                            // open session
+                            new UserSession(user.getName(), user.getEmail(), user.getContact(), user.getRole(), user.getUserID());
+
+                            // redirect to homepage
+                            Intent intent = new Intent(Login.this, homepage.class);
                             startActivity(intent);
                             finish();
                         }
@@ -149,10 +155,6 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             }
         });
     }
-
-
-
-
 
     private void showError(String message){
         errorMessage.setText(message);
