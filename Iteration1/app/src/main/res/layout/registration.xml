@@ -11,83 +11,85 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-
-
         <!-- Header -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/quick_cash"
-            android:textStyle="bold"
-            android:textSize="24sp"
+
             android:padding="16dp"
-            android:textColor="@android:color/black"
+            android:shadowColor="@android:color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:shadowColor="@android:color/black"
-            android:layout_marginBottom="30dp"/>
+            android:text="@string/quickcash"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
 
-        <!-- Create Account Title -->
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create account"
+            android:text="@string/create_account"
             android:textStyle="bold"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:paddingTop="10dp"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginTop="12dp"/>
 
         <!-- Input Fields -->
-
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:autofillHints="Name"
             android:background="@drawable/input_field"
-            android:hint="Name"
-            android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            android:hint="@string/name"
+            android:inputType="text"
+            android:padding="12dp" />
 
         <EditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email_address"
             android:background="@drawable/input_field"
-            android:hint="Email Address"
-            android:inputType="textEmailAddress"
             android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="12dp"/>
 
         <EditText
             android:id="@+id/et_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="number"
+            android:hint="@string/contact_number"
             android:background="@drawable/input_field"
-            android:hint="Contact Number"
-            android:inputType="phone"
             android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            android:inputType="phone"
+            android:layout_marginTop="12dp"/>
 
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/password_must_be_8_characters"
             android:background="@drawable/input_field"
-            android:hint="Password (Must be 8 characters)"
-            android:inputType="textPassword"
             android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            android:inputType="textPassword"
+            android:layout_marginTop="12dp"/>
 
         <!-- Role Dropdown (Spinner) -->
         <Spinner
             android:id="@+id/spinner_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Select your role"
             android:background="@drawable/input_field"
-            android:padding="16dp"
-            android:layout_marginBottom="20dp"/>
+            android:padding="12dp"
+            android:layout_marginTop="12dp"/>
 
         <!-- Create Account Button -->
         <Button
@@ -96,13 +98,11 @@
             android:layout_height="wrap_content"
             android:text="@string/create_account"
             android:textStyle="bold"
-            android:hint="Register"
             android:background="@android:color/black"
             android:textColor="@android:color/white"
             android:padding="12dp"
-            android:paddingTop="20dp"
-            android:textSize="20sp"
-            android:layout_marginTop="60dp" />
+
+            android:layout_marginTop="12dp"/>
 
         <!-- Terms and Conditions -->
         <TextView
@@ -113,12 +113,12 @@
             android:paddingTop="10dp"
             android:textAlignment="center"/>
 
-        <!-- Error Message (Initially Hidden) -->
+
         <LinearLayout
             android:id="@+id/error_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="gone"
             android:background="@android:color/white"
             android:padding="10dp">
@@ -129,17 +129,13 @@
                 android:text="@string/error"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:textColor="@color/error_red"
-                android:layout_marginEnd="5dp"/>
-
+                android:textColor="@android:color/holo_red_dark"/>
 
             <TextView
-                android:id="@+id/error_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/invalid_details_please_re_enter_your_information"
-                android:textSize="14sp"
-                android:textColor="@color/error_red"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
     </LinearLayout>

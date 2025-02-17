@@ -2,6 +2,7 @@
 agp = "8.8.0"
 androidMail = "1.6.7"
 android-activation = "1.6.7"
+firebaseAuthVersion = "21.1.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -12,11 +13,13 @@ constraintlayout = "2.2.0"
 espressoIntents = "3.6.1"
 firebaseDatabase = "21.0.0"
 googleGmsGoogleServices = "4.4.2"
-firebaseCommon = "21.0.0"
+firebaseAuth = "23.2.0"
+uiautomator = "2.3.0"
 
 [libraries]
 android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidMail" }
 android-mail = { module = "com.sun.mail:android-mail", version.ref = "androidMail" }
+firebase-auth-v2110 = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuthVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -26,7 +29,8 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
-firebase-common = { group = "com.google.firebase", name = "firebase-common", version.ref = "firebaseCommon" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
