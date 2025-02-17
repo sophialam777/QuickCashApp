@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class homepage extends AppCompatActivity {
 
     private Button myAccount;
+    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class homepage extends AppCompatActivity {
     }
 
     private void initializeOnClickListener() {
-        myAccount = findViewById(R.id.account_btn);
+        myAccount = findViewById(R.id.edit_profile);
         myAccount.setOnClickListener(v -> {
             // check if user is logged in, otherwise send them to the login page
             if(UserSession.loggedIn) {
@@ -38,6 +39,12 @@ public class homepage extends AppCompatActivity {
                 Intent intent = new Intent(homepage.this, Login.class);
                 startActivity(intent);
             }
+        });
+
+        loginButton = findViewById(R.id.login_button);
+        loginButton.setOnClickListener(v -> {
+            Intent intent = new Intent(homepage.this, Login.class);
+            startActivity(intent);
         });
     }
 }
