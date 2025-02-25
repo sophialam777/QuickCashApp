@@ -125,6 +125,7 @@ public class Registration extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 // Success, user added to database
+                                                Log.d("FirebaseDB", "User added successfully");
                                                 Toast.makeText(Registration.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
 
 
@@ -136,6 +137,7 @@ public class Registration extends AppCompatActivity {
                                                 finish();
                                             } else {
                                                 // Failed to add user to database
+                                                Log.e("FirebaseDB", "Failed to add user", task.getException());
                                                 showError("Failed to save user data. Please try again.");
                                             }
                                         }
