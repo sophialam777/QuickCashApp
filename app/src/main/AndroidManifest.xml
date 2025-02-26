@@ -37,6 +37,14 @@
         <activity
             android:name=".MyAccount"
             android:exported="true" />
+
+        <activity
+            android:name=".JobListingsActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".JobDetailsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

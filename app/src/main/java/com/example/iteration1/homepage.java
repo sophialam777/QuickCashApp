@@ -14,6 +14,7 @@ public class homepage extends AppCompatActivity {
 
     private Button myAccount;
     private Button loginButton;
+    private Button jobListingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,13 @@ public class homepage extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(v -> {
             Intent intent = new Intent(homepage.this, Login.class);
+            startActivity(intent);
+        });
+
+        jobListingsButton = findViewById(R.id.job_postings);
+        jobListingsButton.setOnClickListener(v -> {
+            // Navigate to the JobListingsActivity when the button is clicked
+            Intent intent = new Intent(homepage.this, JobListingsActivity.class);
             startActivity(intent);
         });
     }
