@@ -23,7 +23,6 @@ public class JobListingsActivity extends AppCompatActivity {
 
         jobListView = findViewById(R.id.job_list_view);
 
-        // Initialize job list with more specific job requirements
         jobList = new ArrayList<>();
         jobList.add(new Job("Food Delivery Driver",
                 "Deliver food to customers within a specific time frame from various restaurants to their homes or offices.",
@@ -119,7 +118,7 @@ public class JobListingsActivity extends AppCompatActivity {
         ArrayAdapter<Job> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, jobList);
         jobListView.setAdapter(adapter);
 
-        // Handle item click to show job details
+        //Handle item click to show job details
         jobListView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
             Job selectedJob = jobList.get(position);
             Intent intent = new Intent(JobListingsActivity.this, JobDetailsActivity.class);
