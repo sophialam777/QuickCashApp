@@ -12,6 +12,7 @@ import com.example.iteration1.validator.Job;
 
 public class JobDetailsActivity extends AppCompatActivity {
 
+    public Uri selectedResumeUri;
     private TextView jobTitle, jobDescription, jobRequirements, jobInstructions;
     private Button applyButton;
 
@@ -52,6 +53,7 @@ public class JobDetailsActivity extends AppCompatActivity {
     }
 
     private void handleApplyButtonClick() {
+        //should check if a resume is selected before submitting
         Toast.makeText(this, "Application Submitted!", Toast.LENGTH_SHORT).show();
     }
 
@@ -61,6 +63,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             Uri resumeUri = data.getData();
+            selectedResumeUri = resumeUri;
             if (resumeUri != null) {
                 Toast.makeText(this, "Resume selected: " + resumeUri.toString(), Toast.LENGTH_SHORT).show();
             }

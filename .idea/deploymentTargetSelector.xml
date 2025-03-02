@@ -5,19 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="homepage (3)">
+      <SelectionState runConfigName="testUserLoginAndViewJobDetails()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="homepage">
+      <SelectionState runConfigName="testApplyButtonShowsToast()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="homepage (5)">
+      <SelectionState runConfigName="testAttachResumeOpensFilePicker()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="homepage (1)">
+      <SelectionState runConfigName="JobDetailsDisplayed()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="homepage (2)">
+      <SelectionState runConfigName="ErrorShownWhenNoResumeSelected()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
