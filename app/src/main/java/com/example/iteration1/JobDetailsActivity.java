@@ -53,8 +53,12 @@ public class JobDetailsActivity extends AppCompatActivity {
     }
 
     private void handleApplyButtonClick() {
-        //should check if a resume is selected before submitting
-        Toast.makeText(this, "Application Submitted!", Toast.LENGTH_SHORT).show();
+        if (selectedResumeUri == null) {
+            //Show a message prompting the user to attach a resume if they try to apply without a resume
+            Toast.makeText(this, "Please attach a resume before submitting your application.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Application Submitted!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Handle result after file selection
