@@ -5,7 +5,10 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="homepage (5)">
+      <SelectionState runConfigName="ErrorShownWhenNoResumeSelected()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="UITests">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
