@@ -135,7 +135,7 @@ public class MapUITest {
 
         UiObject jobTitle = device.findObject(new UiSelector().textContains("Title:"));
         UiObject jobDescription = device.findObject(new UiSelector().textContains("Description:"));
-     
+
 
         assertTrue(jobTitle.exists());
         assertTrue(jobDescription.exists());
