@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/job_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Job Title"
+        android:textSize="40sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/job_description"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="36dp"
+        android:text="Job Description"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/job_requirements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/job_title"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/job_requirements"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="36dp"
+        android:text="Job Requirements"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/job_instructions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/job_description" />
+
+    <TextView
+        android:id="@+id/job_instructions"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="261dp"
+        android:text="Application Instructions"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/apply_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/job_requirements" />
+
+    <TextView
+        android:id="@+id/job_description1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="281dp"
+        android:layout_marginBottom="8dp"
+        android:text="Job Description"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/job_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_title"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/job_requirements1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="265dp"
+        android:layout_marginBottom="5dp"
+        android:text="Job Requirements"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/job_requirements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.231"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_description"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/application_instructions1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="231dp"
+        android:layout_marginBottom="10dp"
+        android:text="Application Instructions"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/job_instructions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_requirements"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- Resume Attachment Section -->
+
+    <Button
+        android:id="@+id/attach_resume_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:text="Attach Resume"
+        app:layout_constraintBottom_toTopOf="@+id/apply_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_instructions"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <Button
+        android:id="@+id/apply_button"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Apply Now"
+        app:layout_constraintBottom_toTopOf="@id/go_back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attach_resume_button" />
+
+    <Button
+        android:id="@+id/go_back_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Go Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/apply_button"
+        app:layout_constraintVertical_bias="0.571" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

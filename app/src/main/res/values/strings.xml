@@ -15,4 +15,5 @@
     <string name="name" />
     <string name="quick_cash">QUICK CASH</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="title_activity_google_maps">GoogleMapsActivity</string>
 </resources>
