@@ -7,12 +7,16 @@ public class Job implements Serializable {
     private String description;
     private String requirements;
     private String instructions;
+    private double latitude;
+    private double longitude;
 
-    public Job(String title, String description, String requirements, String instructions) {
+    public Job(String title, String description, String requirements, String instructions, double latitude, double longitude) {
         this.title = title;
         this.description = description;
         this.requirements = requirements;
         this.instructions = instructions;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getTitle() {
@@ -45,6 +49,22 @@ public class Job implements Serializable {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override

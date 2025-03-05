@@ -14,7 +14,7 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     public Uri selectedResumeUri;
     private TextView jobTitle, jobDescription, jobRequirements, jobInstructions;
-    private Button applyButton;
+    private Button applyButton, goBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         jobRequirements = findViewById(R.id.job_requirements);
         jobInstructions = findViewById(R.id.job_instructions);
         applyButton = findViewById(R.id.apply_button);
+        goBackButton = findViewById(R.id.go_back_button);
 
         //Get job object and set details
         Job selectedJob = (Job) getIntent().getSerializableExtra("job");
@@ -42,6 +43,13 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         //Handle Apply button click
         applyButton.setOnClickListener(v -> handleApplyButtonClick());
+
+        goBackButton.setOnClickListener(v -> {
+            //Navigate back to the JobListingsActivity
+            Intent intent = new Intent(JobDetailsActivity.this, JobListingsActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     //Open file picker to select resume (*/* means Any type of file)
