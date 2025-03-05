@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    GoogleMap mMap;
     private ArrayList<Job> jobList;
 
     @Override

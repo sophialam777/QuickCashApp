@@ -38,7 +38,7 @@ public class JobListingUITest {
 
     @Before
     public void setUp() {
-        testJob = new Job("Software Engineer", "Develop applications", "Java, Android", "Apply online");
+        testJob = new Job("Software Engineer", "Develop applications", "Java, Android", "Apply online", 44.6452, -63.5736);
     }
 
     @Test

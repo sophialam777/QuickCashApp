@@ -5,10 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ErrorShownWhenNoResumeSelected()">
+      <SelectionState runConfigName="MapUITest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="UITests">
+      <SelectionState runConfigName="testJobsAreDisplayedOnMap()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testMarkerClickOpensJobDetailsDialog()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testGoogleMapsActivity()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testJobListingsActivity()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
