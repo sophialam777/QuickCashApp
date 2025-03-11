@@ -9,16 +9,23 @@ public class Job implements Serializable {
     private String instructions;
     private double latitude;
     private double longitude;
+    private String[] questions;
 
-    public Job(String title, String description, String requirements, String instructions, double latitude, double longitude) {
+
+    public Job(String title, String description, String requirements, String instructions, double latitude, double longitude, String[] questions) {
         this.title = title;
         this.description = description;
         this.requirements = requirements;
         this.instructions = instructions;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.questions = questions;
     }
 
+
+    public String[] getQuestions() {
+        return questions;
+    }
     public String getTitle() {
         return title;
     }
