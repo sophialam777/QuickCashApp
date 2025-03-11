@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,10 +74,19 @@
         android:layout_marginTop="10dp"/>
 
     <Button
+        android:id="@+id/jobsearch_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job Search"
+        android:layout_below="@id/settings"
+        android:layout_marginTop="10dp"/>
+
+    <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
         android:layout_below="@id/settings"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="68dp"
+        android:text="Logout" />
+
 </RelativeLayout>
