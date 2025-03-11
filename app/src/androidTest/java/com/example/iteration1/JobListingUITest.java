@@ -38,7 +38,16 @@ public class JobListingUITest {
 
     @Before
     public void setUp() {
-        testJob = new Job("Software Engineer", "Develop applications", "Java, Android", "Apply online", 44.6452, -63.5736);
+        String[] questions = {"Driver license?", "Due?"}; // Define job-specific questions
+        testJob = new Job(
+                "Software Engineer",       // title
+                "Develop applications",    // description
+                "Java, Android",           // requirements
+                "Apply online",            // instructions
+                44.6452,                  // latitude
+                -63.5736,                 // longitude
+                questions                  // questions
+        );
     }
 
     @Test
