@@ -55,6 +55,13 @@
         <activity
             android:name=".JobDetailsActivity"
             android:exported="true" />
+        <activity
+            android:name=".PreferredEmployeeActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".EmployeeActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
