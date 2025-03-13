@@ -21,7 +21,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
-import com.example.iteration1.JobDetailsActivity;
+
 import com.example.iteration1.validator.Job;
 import org.junit.Before;
 import org.junit.Rule;
@@ -57,7 +57,7 @@ public class JobListingUITest {
         ActivityScenario<JobDetailsActivity> scenario = ActivityScenario.launch(intent);
 
         onView(withId(R.id.job_title)).check(matches(withText("Software Engineer")));
-        onView(withId(R.id.job_description)).check(matches(withText("Develop applications")));
+        onView(withId(R.id.job_loc)).check(matches(withText("Develop applications")));
         onView(withId(R.id.job_requirements)).check(matches(withText("Java, Android")));
         onView(withId(R.id.job_instructions)).check(matches(withText("Apply online")));
     }

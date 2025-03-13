@@ -15,11 +15,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class JobDetailsActivity extends AppCompatActivity {
 
     public Uri selectedResumeUri;
-    private TextView jobTitle, jobDescription, jobRequirements, jobInstructions;
+    private TextView jobTitle, jobDescription, jobLocation, jobType, jobPay;
     private Button applyButton, goBackButton;
     private EditText question1Input, question2Input;
     private TextView question1Label, question2Label;
@@ -29,11 +30,12 @@ public class JobDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_details);
 
-        //Initialize the TextViews and Apply Button
+        // Initialize views
         jobTitle = findViewById(R.id.job_title);
+        jobLocation = findViewById(R.id.job_loc);
         jobDescription = findViewById(R.id.job_description);
-        jobRequirements = findViewById(R.id.job_requirements);
-        jobInstructions = findViewById(R.id.job_instructions);
+        jobType = findViewById(R.id.job_type);
+        jobPay = findViewById(R.id.job_pay);
         applyButton = findViewById(R.id.apply_button);
         goBackButton = findViewById(R.id.go_back_button);
         question1Label = findViewById(R.id.question1_label);
@@ -41,33 +43,34 @@ public class JobDetailsActivity extends AppCompatActivity {
         question2Label = findViewById(R.id.question2_label);
         question2Input = findViewById(R.id.question2_input);
 
-        //Get job object and set details
+        // Get job object and set details
         Job selectedJob = (Job) getIntent().getSerializableExtra("job");
         if (selectedJob != null) {
             jobTitle.setText(selectedJob.getTitle());
             jobDescription.setText(selectedJob.getDescription());
-            jobRequirements.setText(selectedJob.getRequirements());
-            jobInstructions.setText(selectedJob.getInstructions());
+            jobLocation.setText("Location: " + selectedJob.getLocation());
+            jobType.setText("Type: " + selectedJob.getType());
+            jobPay.setText("Pay: " + selectedJob.getPay());
+
             // Display job-specific questions
-            String[] questions = selectedJob.getQuestions();
-            if (questions != null && questions.length > 0) {
+            List<String> questions = selectedJob.getQuestions();
+            if (questions != null && !questions.isEmpty()) {
                 question1Label.setVisibility(View.VISIBLE);
                 question1Input.setVisibility(View.VISIBLE);
-                question1Label.setText(questions[0]);
+                question1Label.setText(questions.get(0));
 
-                if (questions.length > 1) {
+                if (questions.size() > 1) {
                     question2Label.setVisibility(View.VISIBLE);
                     question2Input.setVisibility(View.VISIBLE);
-                    question2Label.setText(questions[1]);
+                    question2Label.setText(questions.get(1));
                 }
             }
-
         }
 
-        //Handle Attach Resume button click
+        // Handle Attach Resume button click
         findViewById(R.id.attach_resume_button).setOnClickListener(v -> openFilePicker());
 
-        //Handle Apply button click
+        // Handle Apply button click
         applyButton.setOnClickListener(v -> {
             if (selectedJob != null) {
                 handleApplyButtonClick(selectedJob);
@@ -76,8 +79,8 @@ public class JobDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Handle Go Back button click
         goBackButton.setOnClickListener(v -> {
-            //Navigate back to the JobListingsActivity
             Intent intent = new Intent(JobDetailsActivity.this, JobListingsActivity.class);
             startActivity(intent);
             finish();

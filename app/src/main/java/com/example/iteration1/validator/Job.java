@@ -1,31 +1,31 @@
 package com.example.iteration1.validator;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Job implements Serializable {
     private String title;
     private String description;
-    private String requirements;
-    private String instructions;
+    private String location;
+    private String type;
+    private String pay;
     private double latitude;
     private double longitude;
-    private String[] questions;
+    private List<String> questions;
 
-
-    public Job(String title, String description, String requirements, String instructions, double latitude, double longitude, String[] questions) {
+    public Job(String title, String location, String description, String type, String pay, double latitude, double longitude, List<String> questions) {
         this.title = title;
+        this.location = location;
         this.description = description;
-        this.requirements = requirements;
-        this.instructions = instructions;
+        this.type = type;
+        this.pay = pay;
         this.latitude = latitude;
         this.longitude = longitude;
         this.questions = questions;
     }
 
 
-    public String[] getQuestions() {
-        return questions;
-    }
+
     public String getTitle() {
         return title;
     }
@@ -34,28 +34,34 @@ public class Job implements Serializable {
         this.title = title;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPay() {
+        return pay;
+    }
+
+    public void setPay(String pay) {
+        this.pay = pay;
+    }
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getRequirements() {
-        return requirements;
-    }
-
-    public void setRequirements(String requirements) {
-        this.requirements = requirements;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
     }
 
     public double getLatitude() {
@@ -72,6 +78,14 @@ public class Job implements Serializable {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public List<String> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<String> questions) {
+        this.questions = questions;
     }
 
     @Override
