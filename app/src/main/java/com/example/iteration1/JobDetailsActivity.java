@@ -32,8 +32,8 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         // Initialize views
         jobTitle = findViewById(R.id.job_title);
-        jobLocation = findViewById(R.id.job_loc);
         jobDescription = findViewById(R.id.job_description);
+        jobLocation = findViewById(R.id.job_loc);
         jobType = findViewById(R.id.job_type);
         jobPay = findViewById(R.id.job_pay);
         applyButton = findViewById(R.id.apply_button);
@@ -43,7 +43,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         question2Label = findViewById(R.id.question2_label);
         question2Input = findViewById(R.id.question2_input);
 
-        // Get job object and set details
+        // Get job object from Intent
         Job selectedJob = (Job) getIntent().getSerializableExtra("job");
         if (selectedJob != null) {
             jobTitle.setText(selectedJob.getTitle());
@@ -67,10 +67,10 @@ public class JobDetailsActivity extends AppCompatActivity {
             }
         }
 
-        // Handle Attach Resume button click
+        // Attach Resume button
         findViewById(R.id.attach_resume_button).setOnClickListener(v -> openFilePicker());
 
-        // Handle Apply button click
+        // Apply button
         applyButton.setOnClickListener(v -> {
             if (selectedJob != null) {
                 handleApplyButtonClick(selectedJob);
@@ -79,7 +79,7 @@ public class JobDetailsActivity extends AppCompatActivity {
             }
         });
 
-        // Handle Go Back button click
+        // Go Back button
         goBackButton.setOnClickListener(v -> {
             Intent intent = new Intent(JobDetailsActivity.this, JobListingsActivity.class);
             startActivity(intent);
@@ -87,7 +87,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         });
     }
 
-    //Open file picker to select resume (*/* means Any type of file)
     private void openFilePicker() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
@@ -100,7 +99,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         String answer2 = question2Input.getText().toString().trim();
 
         if (selectedResumeUri == null) {
-            // Show a message prompting the user to attach a resume if they try to apply without a resume
             Toast.makeText(this, "Please attach a resume before submitting your application.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -119,13 +117,13 @@ public class JobDetailsActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference applicationsRef = database.getReference("applications");
 
-        // Create a unique key for the application
+        // Unique key for the application
         String applicationId = applicationsRef.push().getKey();
 
-        // Get the current user's email (or other identifier)
-        String applicantEmail = UserSession.email; // Assuming you have a UserSession class
+        // Current user email
+        String applicantEmail = UserSession.email; // Example: "john@example.com"
 
-        // Create a map to store application data
+        // Store application data
         HashMap<String, Object> applicationData = new HashMap<>();
         applicationData.put("jobTitle", job.getTitle());
         applicationData.put("applicantEmail", applicantEmail);
@@ -133,7 +131,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         applicationData.put("answer1", answer1);
         applicationData.put("answer2", answer2);
 
-        // Save the application data to Firebase
         if (applicationId != null) {
             applicationsRef.child(applicationId).setValue(applicationData)
                     .addOnCompleteListener(task -> {
@@ -146,15 +143,13 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
     }
 
-    //Handle result after file selection
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            Uri resumeUri = data.getData();
-            selectedResumeUri = resumeUri;
-            if (resumeUri != null) {
-                Toast.makeText(this, "Resume selected: " + resumeUri.toString(), Toast.LENGTH_SHORT).show();
+            selectedResumeUri = data.getData();
+            if (selectedResumeUri != null) {
+                Toast.makeText(this, "Resume selected: " + selectedResumeUri.toString(), Toast.LENGTH_SHORT).show();
             }
         }
     }

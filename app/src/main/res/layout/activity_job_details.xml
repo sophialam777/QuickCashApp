@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_job_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".JobDetailsActivity">
 
     <!-- Job Title -->
     <TextView
@@ -17,31 +19,31 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Job Description -->
-    <TextView
-        android:id="@+id/job_loc"
-        android:layout_width="373dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Job Location"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/job_title" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Job Location -->
     <TextView
+        android:id="@+id/job_loc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Location:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/job_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Job Description -->
+    <TextView
         android:id="@+id/job_description"
-        android:layout_width="377dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Job Description"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/job_loc"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/job_loc" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Job Type -->
     <TextView
@@ -49,11 +51,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Job Type"
+        android:text="Type:"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/job_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Job Pay -->
     <TextView
@@ -61,13 +63,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Job Pay"
+        android:text="Pay:"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/job_type"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Job Questions -->
+    <!-- Question 1 Label -->
     <TextView
         android:id="@+id/question1_label"
         android:layout_width="0dp"
@@ -78,18 +80,21 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/job_pay"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Question 1 Input -->
     <EditText
         android:id="@+id/question1_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:hint="Your answer"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/question1_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Question 2 Label -->
     <TextView
         android:id="@+id/question2_label"
         android:layout_width="0dp"
@@ -100,17 +105,19 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/question1_input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Question 2 Input -->
     <EditText
         android:id="@+id/question2_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:hint="Your answer"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/question2_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Attach Resume Button -->
     <Button
@@ -121,7 +128,7 @@
         android:text="Attach Resume"
         app:layout_constraintTop_toBottomOf="@id/question2_input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Apply Button -->
     <Button
@@ -132,7 +139,7 @@
         android:text="Apply Now"
         app:layout_constraintTop_toBottomOf="@id/attach_resume_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Go Back Button -->
     <Button
@@ -143,6 +150,6 @@
         android:text="Go Back"
         app:layout_constraintTop_toBottomOf="@id/apply_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
