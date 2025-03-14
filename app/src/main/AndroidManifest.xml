@@ -56,7 +56,7 @@
             android:name=".JobDetailsActivity"
             android:exported="true" />
         <activity
-            android:name=".JobSearchActivity"
+            android:name=".PostJob"
             android:exported="true" />
     </application>
 

@@ -58,11 +58,19 @@
         android:layout_marginTop="10dp"/>
 
     <Button
+        android:id="@+id/post_job_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post Job"
+        android:layout_below="@id/job_postings"
+        android:layout_marginTop="10dp" />
+
+    <Button
         android:id="@+id/my_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Location"
-        android:layout_below="@id/job_postings"
+        android:layout_below="@id/post_job_button"
         android:layout_marginTop="10dp"/>
 
     <Button
