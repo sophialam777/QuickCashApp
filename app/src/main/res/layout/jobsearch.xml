@@ -27,7 +27,7 @@
         android:id="@+id/job_type_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Job Type"
         app:layout_constraintBottom_toTopOf="@+id/job_type"
         app:layout_constraintStart_toStartOf="@+id/job_type"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -51,14 +51,14 @@
         android:id="@+id/max_distance_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/max_distance"
-        app:layout_constraintStart_toStartOf="@+id/max_distance"
+        android:text="Location"
+        app:layout_constraintBottom_toTopOf="@+id/location"
+        app:layout_constraintStart_toStartOf="@+id/location"
         app:layout_constraintTop_toBottomOf="@+id/job_type" />
 
 
     <Spinner
-        android:id="@+id/max_distance"
+        android:id="@+id/location"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="30dp"
@@ -77,10 +77,10 @@
         android:id="@+id/min_salary_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Minimum Salary"
         app:layout_constraintBottom_toTopOf="@+id/min_salary"
         app:layout_constraintStart_toStartOf="@+id/min_salary"
-        app:layout_constraintTop_toBottomOf="@+id/max_distance" />
+        app:layout_constraintTop_toBottomOf="@+id/location" />
 
     <Spinner
         android:id="@+id/min_salary"

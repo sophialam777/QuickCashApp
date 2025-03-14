@@ -1,53 +1,157 @@
 package com.example.iteration1;
 
-import androidx.test.core.app.ActivityScenario;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-
-import android.content.Intent;
+import android.content.Context;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
+import androidx.test.uiautomator.Until;
+
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-
-
+import static androidx.test.uiautomator.UiDevice.getInstance;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class jobSearchTest {
-    ActivityScenario<JobSearchActivity> activityScenario;
+    private UiDevice device;
 
+    @Before
+    public void setUp() throws Exception {
+        // Get the device instance
+        device = getInstance(InstrumentationRegistry.getInstrumentation());
+    }
 
     @Test
-    public void CriteriaAreDisplayed() {
-        activityScenario = ActivityScenario.launch(JobSearchActivity.class);
+    public void testSearch() throws UiObjectNotFoundException {
+        //login with a existing account
+        try (ActivityScenario<Login> scenario = ActivityScenario.launch(Login.class)) {
+            //  enter the test email address
+            UiObject emailField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_email"));
+            emailField.setText("abc.1234@dal.ca"); //registered email
+            //  enter the password of test email address
+            UiObject passwordField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_password"));
+            passwordField.setText("Pass123!@");
+            //select the role
+            UiObject role =  device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_role"));
+            role.click();
+            UiObject employeeRole = device.findObject(new UiSelector().text("Employee"));
+            employeeRole.click();
+            //click on login it
+            UiObject loginButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_button"));
+            loginButton.clickAndWaitForNewWindow();
+            //moved to the main page and click on job search button
+            UiObject jobSearchButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/jobsearch_button"));
+            jobSearchButton.clickAndWaitForNewWindow();
 
-        onView(withId(R.id.job_type)).perform(click());
-        onData(is("Food Delivery")).perform(click());
-        onView(withId(R.id.job_type)).check(matches(withSpinnerText(containsString("Food Delivery"))));
+            //select the location
+            UiObject location =  device.findObject(new UiSelector().resourceId("com.example.iteration1:id/location"));
+            location.click();
+            UiObject chosenLocation = device.findObject(new UiSelector().text("North End Halifax"));
+            chosenLocation.click();
 
-        onView(withId(R.id.min_salary)).perform(click());
-        onData(is("$15/hr")).perform(click());
-        onView(withId(R.id.min_salary)).check(matches(withSpinnerText(containsString("$15/hr"))));
+            UiObject searchButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/search_button"));
+            searchButton.clickAndWaitForNewWindow();
 
-        // Repeat for max_distance spinner
-        onView(withId(R.id.max_distance)).perform(click());
-        onData(is("10km")).perform(click());
-        onView(withId(R.id.max_distance)).check(matches(withSpinnerText(containsString("10km"))));
+            // check if the user is moved back to the login page after hitting the logout button
+            UiObject jobTitle = device.findObject(new UiSelector().text("Food Delivery Driver"));
+            assertTrue(jobTitle.exists());
+        }
+    }
+
+    @Test
+    public void testSearch2() throws UiObjectNotFoundException {
+        //login with a existing account
+        try (ActivityScenario<Login> scenario = ActivityScenario.launch(Login.class)) {
+            //  enter the test email address
+            UiObject emailField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_email"));
+            emailField.setText("abc.1234@dal.ca"); //registered email
+            //  enter the password of test email address
+            UiObject passwordField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_password"));
+            passwordField.setText("Pass123!@");
+            //select the role
+            UiObject role =  device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_role"));
+            role.click();
+            UiObject employeeRole = device.findObject(new UiSelector().text("Employee"));
+            employeeRole.click();
+            //click on login it
+            UiObject loginButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_button"));
+            loginButton.clickAndWaitForNewWindow();
+            //moved to the main page and click on job search button
+            UiObject jobSearchButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/jobsearch_button"));
+            jobSearchButton.clickAndWaitForNewWindow();
+
+            //select the location
+            UiObject location =  device.findObject(new UiSelector().resourceId("com.example.iteration1:id/min_salary"));
+            location.click();
+            UiObject chosenLocation = device.findObject(new UiSelector().text("$15/hr"));
+            chosenLocation.click();
+
+            UiObject searchButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/search_button"));
+            searchButton.clickAndWaitForNewWindow();
+
+            // check if the user is moved back to the login page after hitting the logout button
+            UiObject jobTitle = device.findObject(new UiSelector().text("Software Engineer"));
+            assertTrue(jobTitle.exists());
+        }
+    }
+
+    @Test
+    public void testViewMap() throws UiObjectNotFoundException {
+        //login with a existing account
+        try (ActivityScenario<Login> scenario = ActivityScenario.launch(Login.class)) {
+            //  enter the test email address
+            UiObject emailField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_email"));
+            emailField.setText("abc.1234@dal.ca"); //registered email
+            //  enter the password of test email address
+            UiObject passwordField = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_password"));
+            passwordField.setText("Pass123!@");
+            //select the role
+            UiObject role =  device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_role"));
+            role.click();
+            UiObject employeeRole = device.findObject(new UiSelector().text("Employee"));
+            employeeRole.click();
+            //click on login it
+            UiObject loginButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/login_button"));
+            loginButton.clickAndWaitForNewWindow();
+            //moved to the main page and click on job search button
+            UiObject jobSearchButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/jobsearch_button"));
+            jobSearchButton.clickAndWaitForNewWindow();
+
+            //select the location
+            UiObject location =  device.findObject(new UiSelector().resourceId("com.example.iteration1:id/location"));
+            location.click();
+            UiObject chosenLocation = device.findObject(new UiSelector().text("North End Halifax"));
+            chosenLocation.click();
+            //click on search button
+            UiObject searchButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/search_button"));
+            searchButton.clickAndWaitForNewWindow();
+            //click on view map
+            UiObject viewMapButton = device.findObject(new UiSelector().resourceId("com.example.iteration1:id/view_map_button"));
+            viewMapButton.clickAndWaitForNewWindow();
+
+            // Check if markers for jobs are displayed
+            UiObject foodDeliveryMarker = device.findObject(new UiSelector().descriptionContains("Food Delivery Driver"));
+            assertTrue(foodDeliveryMarker.exists());
+            foodDeliveryMarker.clickAndWaitForNewWindow();
+
+            // Check if job details dialog is opened with the correct details
+            UiObject jobDetailsDialog = device.findObject(new UiSelector().text("Job Details"));
+            assertTrue(jobDetailsDialog.exists());
+        }
     }
 
 }
