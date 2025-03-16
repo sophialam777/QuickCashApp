@@ -5,13 +5,16 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MapUITest">
+      <SelectionState runConfigName="testLogout()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testJobsAreDisplayedOnMap()">
+      <SelectionState runConfigName="jobSearchTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testMarkerClickOpensJobDetailsDialog()">
+      <SelectionState runConfigName="testSearch2()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testViewMap()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
