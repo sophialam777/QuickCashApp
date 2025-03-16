@@ -18,6 +18,7 @@ public class PostJob extends AppCompatActivity {
     private EditText jobTitleInput, jobLocationInput, jobTypeInput, jobPayInput, jobDescriptionInput;
     private EditText jobLatitudeInput, jobLongitudeInput, jobQuestionsInput;
     private Button postJobButton;
+    public static String toast_msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class PostJob extends AppCompatActivity {
         // Validate mandatory fields
         if (jobTitle.isEmpty() || jobLocation.isEmpty() || jobType.isEmpty() || jobPay.isEmpty() || jobDescription.isEmpty() || latitudeStr.isEmpty() || longitudeStr.isEmpty() || questionsStr.isEmpty()) {
             Toast.makeText(this, "Please fill all mandatory fields.", Toast.LENGTH_LONG).show();
+            toast_msg = "Please fill all mandatory fields.";
             return;
         }
 
@@ -61,8 +63,10 @@ public class PostJob extends AppCompatActivity {
         try {
             latitude = Double.parseDouble(latitudeStr);
             longitude = Double.parseDouble(longitudeStr);
+            toast_msg = "";
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Invalid latitude or longitude.", Toast.LENGTH_LONG).show();
+            toast_msg = "Invalid latitude or longitude.";
             return;
         }
 
