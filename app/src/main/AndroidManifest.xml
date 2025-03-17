@@ -58,6 +58,12 @@
         <activity
             android:name=".PostJob"
             android:exported="true" />
+        <activity
+            android:name=".JobSearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SearchResultActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

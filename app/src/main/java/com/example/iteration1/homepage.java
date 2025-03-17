@@ -17,6 +17,7 @@ public class homepage extends AppCompatActivity {
     private Button loginButton;
     private Button jobListingsButton;
     private Button postJob;
+    private Button jobSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,13 @@ public class homepage extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Only Employers can access the Post Job feature", Toast.LENGTH_LONG).show();
             }
+        });
+
+        jobSearchButton = findViewById(R.id.jobsearch_button);
+        jobSearchButton.setOnClickListener(v -> {
+            // Navigate to the JobSearcgActivity when the button is clicked
+            Intent intent = new Intent(homepage.this, JobSearchActivity.class);
+            startActivity(intent);
         });
 
     }
