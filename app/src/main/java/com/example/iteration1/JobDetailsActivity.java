@@ -20,10 +20,17 @@ import java.util.List;
 public class JobDetailsActivity extends AppCompatActivity {
 
     public Uri selectedResumeUri;
-    private TextView jobTitle, jobDescription, jobLocation, jobType, jobPay;
-    private Button applyButton, goBackButton;
-    private EditText question1Input, question2Input;
-    private TextView question1Label, question2Label;
+    private TextView jobTitle;
+    private TextView jobDescription;
+    private TextView jobType;
+    private TextView jobPay;
+    private TextView jobLocation;
+    private Button applyButton;
+    private Button goBackButton;
+    private EditText question1Input;
+    private EditText question2Input;
+    private TextView question1Label;
+    private TextView question2Label;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
