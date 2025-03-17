@@ -22,6 +22,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -111,49 +113,51 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
             return;
         }
 
-        // Query Firebase Database to check if the email exists
-        dbref.orderByChild("email").equalTo(loginEmail).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        userAccount user = userSnapshot.getValue(userAccount.class);
+        // Authenticate using Firebase Authentication
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(loginEmail, loginPassword)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Get user info
+                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        if (firebaseUser != null) {
+                            // Fetch user details from Firebase Realtime Database
+                            dbref.orderByChild("email").equalTo(loginEmail)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (snapshot.exists()) {
+                                                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                                    userAccount user = userSnapshot.getValue(userAccount.class);
 
-                        if (user != null) {
-                            // Check if password matches
-                            if (!user.getPassword().equals(loginPassword)) {
-                                showError("Incorrect password");
-                                return;
-                            }
+                                                    if (user != null) {
+                                                        if (!user.getRole().equals(loginRole)) {
+                                                            showError("Incorrect role selected");
+                                                            return;
+                                                        }
 
-                            // Check if role matches
-                            if (!user.getRole().equals(loginRole)) {
-                                showError("Incorrect role selected");
-                                return;
-                            }
+                                                        Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_LONG).show();
+                                                        new UserSession(user.getName(), user.getEmail(), user.getContact(), user.getRole(), user.getUserID());
 
-                            // Login successful
-                            Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_LONG).show();
+                                                        Intent intent = new Intent(Login.this, homepage.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
+                                                }
+                                            } else {
+                                                showError("Email not linked to an account");
+                                            }
+                                        }
 
-                            // open session
-                            new UserSession(user.getName(), user.getEmail(), user.getContact(), user.getRole(), user.getUserID());
-
-                            // redirect to homepage
-                            Intent intent = new Intent(Login.this, homepage.class);
-                            startActivity(intent);
-                            finish();
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            showError("Database error: " + error.getMessage());
+                                        }
+                                    });
                         }
+                    } else {
+                        showError("Incorrect email or password.");
                     }
-                } else {
-                    showError("Email is not linked to an account");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                showError("Database error: " + error.getMessage());
-            }
-        });
+                });
     }
 
     private void showError(String message){

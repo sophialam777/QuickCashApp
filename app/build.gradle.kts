@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -33,6 +34,9 @@ android {
     packagingOptions {
         resources.excludes += setOf("META-INF/NOTICE.md", "META-INF/LICENSE.md")
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -40,6 +44,7 @@ dependencies {
 
     implementation(libs.firebase.auth)
     implementation(libs.uiautomator)
+    implementation(libs.play.services.maps)
 
     testImplementation("org.robolectric:robolectric:4.11")
 
@@ -59,4 +64,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }

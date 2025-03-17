@@ -55,7 +55,8 @@ before_script:
   - sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-${ANDROID_COMPILE_SDK}"
   - sdkmanager --sdk_root=${ANDROID_HOME} "platform-tools"
   - sdkmanager --sdk_root=${ANDROID_HOME} "build-tools;${ANDROID_BUILD_TOOLS}"
-
+  # Create the local.properties file for Gradle (necessary for CI)
+  - echo "sdk.dir=${ANDROID_HOME}" > local.properties
   # Not necessary, but just for surity
   - chmod +x ./gradlew
 
