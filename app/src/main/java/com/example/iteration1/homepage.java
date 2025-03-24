@@ -3,6 +3,7 @@ package com.example.iteration1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ public class homepage extends AppCompatActivity {
     private Button myAccount;
     private Button loginButton;
     private Button jobListingsButton;
+    private Button postJob;
+    private Button jobSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +57,23 @@ public class homepage extends AppCompatActivity {
             Intent intent = new Intent(homepage.this, JobListingsActivity.class);
             startActivity(intent);
         });
+
+        postJob = findViewById(R.id.post_job_button);
+        postJob.setOnClickListener(v -> {
+            if(UserSession.role.equals("Employer")) {
+                Intent intent = new Intent(homepage.this, PostJob.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Only Employers can access the Post Job feature", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        jobSearchButton = findViewById(R.id.jobsearch_button);
+        jobSearchButton.setOnClickListener(v -> {
+            // Navigate to the JobSearcgActivity when the button is clicked
+            Intent intent = new Intent(homepage.this, JobSearchActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

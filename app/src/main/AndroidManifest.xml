@@ -56,11 +56,13 @@
             android:name=".JobDetailsActivity"
             android:exported="true" />
         <activity
-            android:name=".PreferredEmployeeActivity"
+            android:name=".PostJob"
             android:exported="true" />
-
         <activity
-            android:name=".EmployeeActivity"
+            android:name=".JobSearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SearchResultActivity"
             android:exported="true" />
     </application>
 
