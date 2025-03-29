@@ -18,6 +18,8 @@ public class homepage extends AppCompatActivity {
     private Button jobListingsButton;
     private Button postJob;
     private Button jobSearchButton;
+    private Button payButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,13 @@ public class homepage extends AppCompatActivity {
             Intent intent = new Intent(homepage.this, JobSearchActivity.class);
             startActivity(intent);
         });
+
+        payButton = findViewById(R.id.payEmployee_button);
+        payButton.setOnClickListener(v -> {
+            Intent intent = new Intent(homepage.this, PaymenActivity.class);
+            startActivity(intent);
+        });
+
 
     }
 }

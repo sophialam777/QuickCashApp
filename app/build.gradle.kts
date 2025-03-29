@@ -50,7 +50,6 @@ dependencies {
 
     testImplementation("org.mockito:mockito-core:5.6.0")
 
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -65,4 +64,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    implementation ("com.paypal.sdk:paypal-android-sdk:2.16.0")
 }
+

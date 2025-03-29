@@ -4,7 +4,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -13,11 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PaymentUITest {
-    @Before
-    public void setUp() throws Exception {
-        //Initialize Intents to check if the PayPal Activity is triggered
-        Intents.init();
-    }
+
 
     @Test
     public void testUIElementsDisplayed() {
@@ -38,7 +35,7 @@ public class PaymentUITest {
 
         onView(withId(R.id.button)).perform(click());
 
-        onView(withId(R.id.editTextText)).check(matches(ViewMatchers.hasErrorText("Amount cannot be empty")));
+        onView(withId(R.id.editTextText)).check(matches(hasErrorText("Amount cannot be empty")));
     }
 
 

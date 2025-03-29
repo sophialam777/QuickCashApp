@@ -64,6 +64,9 @@
         <activity
             android:name=".SearchResultActivity"
             android:exported="true" />
+        <activity
+            android:name=".PaymenActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
