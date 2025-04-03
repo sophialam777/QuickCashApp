@@ -66,6 +66,14 @@
         android:layout_marginTop="10dp" />
 
     <Button
+        android:id="@+id/plist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Preferred Employee List"
+        android:layout_below="@id/job_postings"
+        android:layout_marginTop="10dp" />
+
+    <Button
         android:id="@+id/my_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
