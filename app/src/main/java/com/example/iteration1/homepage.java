@@ -33,10 +33,10 @@ public class homepage extends AppCompatActivity {
     }
 
     private void initializeOnClickListener() {
+        // "My Account" button (ID: edit_profile) navigates to MyAccount activity
         myAccount = findViewById(R.id.edit_profile);
         myAccount.setOnClickListener(v -> {
-            // check if user is logged in, otherwise send them to the login page
-            if(UserSession.loggedIn) {
+            if (UserSession.loggedIn) {
                 Intent intent = new Intent(homepage.this, MyAccount.class);
                 startActivity(intent);
             } else {
@@ -53,14 +53,13 @@ public class homepage extends AppCompatActivity {
 
         jobListingsButton = findViewById(R.id.job_postings);
         jobListingsButton.setOnClickListener(v -> {
-            // Navigate to the JobListingsActivity when the button is clicked
             Intent intent = new Intent(homepage.this, JobListingsActivity.class);
             startActivity(intent);
         });
 
         postJob = findViewById(R.id.post_job_button);
         postJob.setOnClickListener(v -> {
-            if(UserSession.role.equals("Employer")) {
+            if (UserSession.role.equals("Employer")) {
                 Intent intent = new Intent(homepage.this, PostJob.class);
                 startActivity(intent);
             } else {
@@ -70,10 +69,8 @@ public class homepage extends AppCompatActivity {
 
         jobSearchButton = findViewById(R.id.jobsearch_button);
         jobSearchButton.setOnClickListener(v -> {
-            // Navigate to the JobSearcgActivity when the button is clicked
             Intent intent = new Intent(homepage.this, JobSearchActivity.class);
             startActivity(intent);
         });
-
     }
 }
