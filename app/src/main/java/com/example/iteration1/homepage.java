@@ -27,7 +27,7 @@ public class homepage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.homepage);
-        FirebaseMessaging.getInstance().subscribeToTopic("job")
+        FirebaseMessaging.getInstance().subscribeToTopic("jobs")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("homepage", "Subscribed to job notifications successfully.");
@@ -40,6 +40,15 @@ public class homepage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("MainActivity", "Fetching FCM token failed", task.getException());
+                        return;
+                    }
+                    String token = task.getResult();
+                    Log.d("MainActivity", "FCM Token: " + token);
+                });
         initializeOnClickListener();
     }
 
