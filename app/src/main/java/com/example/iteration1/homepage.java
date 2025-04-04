@@ -2,6 +2,13 @@ package com.example.iteration1;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
+
+
+
+
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -11,6 +18,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class homepage extends AppCompatActivity {
 
     private Button myAccount;
@@ -18,17 +27,35 @@ public class homepage extends AppCompatActivity {
     private Button jobListingsButton;
     private Button postJob;
     private Button jobSearchButton;
+    private Button perferlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.homepage);
+        FirebaseMessaging.getInstance().subscribeToTopic("jobs")
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("homepage", "Subscribed to job notifications successfully.");
+                    } else {
+                        Log.e("homepage", "Failed to subscribe to job notifications.");
+                    }
+                });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("MainActivity", "Fetching FCM token failed", task.getException());
+                        return;
+                    }
+                    String token = task.getResult();
+                    Log.d("MainActivity", "FCM Token: " + token);
+                });
         initializeOnClickListener();
     }
 
@@ -62,6 +89,16 @@ public class homepage extends AppCompatActivity {
         postJob.setOnClickListener(v -> {
             if(UserSession.role.equals("Employer")) {
                 Intent intent = new Intent(homepage.this, PostJob.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Only Employers can access the Post Job feature", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        perferlist = findViewById(R.id.plist);
+        perferlist.setOnClickListener(v -> {
+            if(UserSession.role.equals("Employer")) {
+                Intent intent = new Intent(homepage.this, PreferredEmployeeActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Only Employers can access the Post Job feature", Toast.LENGTH_LONG).show();
