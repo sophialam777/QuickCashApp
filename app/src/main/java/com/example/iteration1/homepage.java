@@ -27,6 +27,7 @@ public class homepage extends AppCompatActivity {
     private Button jobListingsButton;
     private Button postJob;
     private Button jobSearchButton;
+    private Button payButton;
     private Button perferlist;
 
     @Override
@@ -111,6 +112,13 @@ public class homepage extends AppCompatActivity {
             Intent intent = new Intent(homepage.this, JobSearchActivity.class);
             startActivity(intent);
         });
+
+        payButton = findViewById(R.id.payEmployee_button);
+        payButton.setOnClickListener(v -> {
+            Intent intent = new Intent(homepage.this, PaymenActivity.class);
+            startActivity(intent);
+        });
+
 
     }
 }
