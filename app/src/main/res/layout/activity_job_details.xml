@@ -146,6 +146,19 @@
         app:layout_constraintTop_toBottomOf="@id/attach_resume_button" />
 
     <Button
+        android:id="@+id/save_preferences_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Save Preferences"
+        android:backgroundTint="#FF5722"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/apply_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <Button
         android:id="@+id/go_back_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
