@@ -182,7 +182,7 @@ public class PostJob extends AppCompatActivity {
         try {
             // Build the notification payload
             JSONObject notificationJSONBody = new JSONObject();
-            notificationJSONBody.put("title", "New Job For Yoy");
+            notificationJSONBody.put("title", "New Job For You");
             notificationJSONBody.put("body", "A new job  '" + jobTitle + "' is available in " + jobLocation);
 
             JSONObject dataJSONBody = new JSONObject();
