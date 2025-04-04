@@ -56,6 +56,13 @@ public class MyAccount extends AppCompatActivity {
         viewApplications.setOnClickListener(v -> {
             // Navigate to EmployeeApplicationStatusActivity (implementation not shown)
         });
+
+        // New Button: My Applications
+        Button viewApplications = findViewById(R.id.btn_view_applications);
+        viewApplications.setOnClickListener(v -> {
+            Intent intent = new Intent(MyAccount.this, EmployeeApplicationStatusActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void loadUserRating() {

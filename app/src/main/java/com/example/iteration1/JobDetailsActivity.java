@@ -8,11 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.validator.Job;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +34,7 @@ public class JobDetailsActivity extends AppCompatActivity {
     private EditText question2Input;
     private TextView question1Label;
     private TextView question2Label;
+    private Job selectedJob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,16 @@ public class JobDetailsActivity extends AppCompatActivity {
         question1Input = findViewById(R.id.question1_input);
         question2Label = findViewById(R.id.question2_label);
         question2Input = findViewById(R.id.question2_input);
+
+        Button savePreferencesButton = findViewById(R.id.save_preferences_button);
+        selectedJob = (Job) getIntent().getSerializableExtra("job");
+        savePreferencesButton.setOnClickListener(v -> {
+            if (selectedJob != null) {
+                savePreferences(selectedJob);
+            } else {
+                Toast.makeText(this, "Job details not available.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Get job object from Intent
         Job selectedJob = (Job) getIntent().getSerializableExtra("job");
@@ -127,16 +141,17 @@ public class JobDetailsActivity extends AppCompatActivity {
         // Unique key for the application
         String applicationId = applicationsRef.push().getKey();
 
-        // Current user email
-        String applicantEmail = UserSession.email; // Example: "john@example.com"
+        // Current user email from session
+        String applicantEmail = UserSession.email;
 
-        // Store application data
+        // Store application data with default status "Submitted"
         HashMap<String, Object> applicationData = new HashMap<>();
         applicationData.put("jobTitle", job.getTitle());
         applicationData.put("applicantEmail", applicantEmail);
         applicationData.put("resumeUri", selectedResumeUri.toString());
         applicationData.put("answer1", answer1);
         applicationData.put("answer2", answer2);
+        applicationData.put("status", "Submitted");
 
         if (applicationId != null) {
             applicationsRef.child(applicationId).setValue(applicationData)
@@ -159,5 +174,28 @@ public class JobDetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Resume selected: " + selectedResumeUri.toString(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void savePreferences(Job job) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Get user's email as document ID
+        String applicantEmail = UserSession.email; // e.g., "mohammedzaksaj@gmail.com"
+
+        // Create preferences data
+        HashMap<String, Object> preferences = new HashMap<>();
+        preferences.put("pay", job.getPay());   // Get pay from selected job
+        preferences.put("type", job.getType()); // Get type from selected job
+
+        // Save preferences under "userpref" collection using email as document ID
+        db.collection("userpref")
+                .document(applicantEmail.replace(".", ",")) // Replace dots with commas
+                .set(preferences)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Preferences saved successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to save preferences. Please try again.", Toast.LENGTH_LONG).show();
+                });
     }
 }
