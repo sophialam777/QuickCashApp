@@ -67,6 +67,40 @@
             android:name=".SearchResultActivity"
             android:exported="true" />
 
+        <activity android:name=".EmployeeApplicationStatusActivity"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">

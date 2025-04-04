@@ -29,15 +29,24 @@ public class MyAccount extends AppCompatActivity {
 
     public void initializeAccountInfo(){
         TextView userInfo = findViewById(R.id.user_info);
-        String info = "Name: " + UserSession.name + "\nEmail: " + UserSession.email + "\nContact Number: " + UserSession.contact + "\nRole: " + UserSession.role + "\n";
+        String info = "Name: " + UserSession.name + "\nEmail: " + UserSession.email +
+                "\nContact Number: " + UserSession.contact + "\nRole: " + UserSession.role;
         userInfo.setText(info);
     }
 
     public void initializeOnClickListener(){
+        // Logout button
         Button logout = findViewById(R.id.logout_btn);
         logout.setOnClickListener(v -> {
             UserSession.logout();
             Intent intent = new Intent(MyAccount.this, Login.class);
+            startActivity(intent);
+        });
+
+        // New Button: My Applications
+        Button viewApplications = findViewById(R.id.btn_view_applications);
+        viewApplications.setOnClickListener(v -> {
+            Intent intent = new Intent(MyAccount.this, EmployeeApplicationStatusActivity.class);
             startActivity(intent);
         });
     }

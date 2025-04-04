@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.validator.Job;
@@ -140,16 +141,17 @@ public class JobDetailsActivity extends AppCompatActivity {
         // Unique key for the application
         String applicationId = applicationsRef.push().getKey();
 
-        // Current user email
-        String applicantEmail = UserSession.email; // Example: "john@example.com"
+        // Current user email from session
+        String applicantEmail = UserSession.email;
 
-        // Store application data
+        // Store application data with default status "Submitted"
         HashMap<String, Object> applicationData = new HashMap<>();
         applicationData.put("jobTitle", job.getTitle());
         applicationData.put("applicantEmail", applicantEmail);
         applicationData.put("resumeUri", selectedResumeUri.toString());
         applicationData.put("answer1", answer1);
         applicationData.put("answer2", answer2);
+        applicationData.put("status", "Submitted");
 
         if (applicationId != null) {
             applicationsRef.child(applicationId).setValue(applicationData)
