@@ -1,5 +1,6 @@
 package com.example.iteration1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,11 +52,7 @@ public class MyAccount extends AppCompatActivity {
             // Navigate to Login activity (implementation not shown)
         });
 
-        // My Applications button (from User Story 14)
-        Button viewApplications = findViewById(R.id.btn_view_applications);
-        viewApplications.setOnClickListener(v -> {
-            // Navigate to EmployeeApplicationStatusActivity (implementation not shown)
-        });
+
 
         // New Button: My Applications
         Button viewApplications = findViewById(R.id.btn_view_applications);
