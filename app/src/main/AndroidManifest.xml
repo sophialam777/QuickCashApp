@@ -66,6 +66,7 @@
         <activity
             android:name=".SearchResultActivity"
             android:exported="true" />
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
@@ -73,6 +74,14 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+
+
+
+        <activity
+            android:name=".PreferredEmployeeActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

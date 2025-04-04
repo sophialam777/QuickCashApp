@@ -2,7 +2,13 @@ package com.example.iteration1;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
+
+
+
+
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -21,6 +27,7 @@ public class homepage extends AppCompatActivity {
     private Button jobListingsButton;
     private Button postJob;
     private Button jobSearchButton;
+    private Button perferlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,16 @@ public class homepage extends AppCompatActivity {
         postJob.setOnClickListener(v -> {
             if(UserSession.role.equals("Employer")) {
                 Intent intent = new Intent(homepage.this, PostJob.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Only Employers can access the Post Job feature", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        perferlist = findViewById(R.id.plist);
+        perferlist.setOnClickListener(v -> {
+            if(UserSession.role.equals("Employer")) {
+                Intent intent = new Intent(homepage.this, PreferredEmployeeActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Only Employers can access the Post Job feature", Toast.LENGTH_LONG).show();
