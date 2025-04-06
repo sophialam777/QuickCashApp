@@ -66,7 +66,7 @@ public class PaymenActivity extends AppCompatActivity {
 
     private void processPayment() {
         String amount = payAmount.getText().toString();
-        if(amount.equals(null)  || amount.trim().isEmpty()){
+        if (amount == null|| amount.trim().isEmpty()){
             payAmount.setError("Amount cannot be empty");
             return;
         }
