@@ -14,14 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.EventListener;
 
 public class Login extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -48,13 +41,8 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         initializeLoginElements();
         initializeOnClickListener();
     }
@@ -136,9 +124,16 @@ public class Login extends AppCompatActivity implements AdapterView.OnItemSelect
                                                         }
 
                                                         Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                                                        new UserSession(user.getName(), user.getEmail(), user.getContact(), user.getRole(), user.getUserID());
-
-                                                        Intent intent = new Intent(Login.this, homepage.class);
+                                                        UserSession.login(user.getName(), user.getEmail(), user.getContact(), user.getRole(), user.getUserID(), user.getFCMToken());
+                                                        Intent intent;
+                                                        if(UserSession.role.equals("Employee")){
+                                                            intent = new Intent(Login.this, EmployeeDashboard.class);
+                                                        } else if(UserSession.role.equals("Employer")) {
+                                                            intent = new Intent(Login.this, EmployerDashboard.class);
+                                                        } else {
+                                                            Toast.makeText(Login.this, "Error: Invalid Role", Toast.LENGTH_LONG).show();
+                                                            break;
+                                                        }
                                                         startActivity(intent);
                                                         finish();
                                                     }

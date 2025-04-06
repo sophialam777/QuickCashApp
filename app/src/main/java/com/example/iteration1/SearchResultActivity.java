@@ -28,15 +28,21 @@ public class SearchResultActivity extends AppCompatActivity {
     private ArrayList<Job> jobList;
     private ArrayAdapter<Job> adapter;
     private Button viewMapButton, goBackButton;
-
     private String[] options;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searchresult);
 
+        initializeViews();
+        initializeOnClickListeners();
+
+        // Fetch jobs from Firebase
+        fetchJobsFromFirebase();
+    }
+
+    private void initializeViews(){
         jobListView = findViewById(R.id.listView);
         viewMapButton = findViewById(R.id.view_map_button);
         goBackButton = findViewById(R.id.backButton);
@@ -48,10 +54,9 @@ public class SearchResultActivity extends AppCompatActivity {
 
         //get selected search option
         options = getSelectedOptions();
+    }
 
-        // Fetch jobs from Firebase
-        fetchJobsFromFirebase();
-
+    private void initializeOnClickListeners(){
         // Handle item click to show job details
         jobListView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
             Job selectedJob = jobList.get(position);
@@ -102,6 +107,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     double latitude = jobSnapshot.child("latitude").getValue(Double.class);
                     double longitude = jobSnapshot.child("longitude").getValue(Double.class);
                     List<String> questions = (List<String>) jobSnapshot.child("questions").getValue();
+                    String posterEmail = jobSnapshot.child("poster's email").getValue(String.class);
+                    String posterName = jobSnapshot.child("posted by").getValue(String.class);
 
                     //set up boolen condition only add the correct job based on give criteria
                     boolean typeCriteria = (options[0].equals(type) || options[0].equals("Any") );
@@ -112,13 +119,11 @@ public class SearchResultActivity extends AppCompatActivity {
                     boolean locationCriteria =  (options[2].equals(location) || options[2].equals("Any") );
                     //if the correct criteria are met
                     if( typeCriteria && payCriteria && locationCriteria){
-                        Job job = new Job(title, location, description, type, pay, latitude, longitude, questions);
+                        Job job = new Job(title, location, description, type, pay, latitude, longitude, questions, posterEmail, posterName);
                         jobList.add(job);
                     }
-
                 }
                 adapter.notifyDataSetChanged(); // Refresh the list
-
             }
 
             @Override
@@ -129,7 +134,7 @@ public class SearchResultActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isLarger(String chosen , String jobPay){
+    private boolean isLarger(String chosen, String jobPay){
         //get substring from 1 to remove $
         chosen = chosen.substring(1,chosen.length()-3); // -3 to remove the "/hr" part
         jobPay = jobPay.substring(1,jobPay.length()-5); // -5 to remove the "/hour" part
@@ -138,6 +143,4 @@ public class SearchResultActivity extends AppCompatActivity {
         int currentSal = Integer.parseInt( jobPay.trim());
         return  minSal <= currentSal ;
     }
-
-
 }

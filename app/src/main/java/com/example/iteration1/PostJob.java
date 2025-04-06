@@ -1,6 +1,8 @@
 package com.example.iteration1;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -9,19 +11,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.notfication.AccessTokenListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.core.Context;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.Logger;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import com.google.auth.oauth2.GoogleCredentials;
@@ -30,97 +26,116 @@ import java.util.Collections;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class PostJob extends AppCompatActivity {
 
     private static final Object CREDENTIALS_FILE_PATH = "quickcash3130-4607d-cf3b2b5f73d8.json";
-    private EditText jobTitleInput, jobLocationInput, jobTypeInput, jobPayInput, jobDescriptionInput;
-    private EditText jobLatitudeInput, jobLongitudeInput, jobQuestionsInput;
-    private Button postJobButton;
-    public static String toast_msg;
+    private EditText jobTitleInput, jobLocationInput, jobTypeInput, jobPayInput, jobDescriptionInput, jobQuestionsInput;
+    private Button postJobButton, back;
     private RequestQueue requestQueue;
     private static final String PUSH_NOTIFICATION_ENDPOINT = "https://fcm.googleapis.com/v1/projects/quickcash3130-4607d/messages:send";
-
-
+    private Geocoder geocoder;
+    private double latitude, longitude;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.job_posting);
-        requestQueue = Volley.newRequestQueue(this);
 
         FirebaseMessaging.getInstance().subscribeToTopic("jobs");
-        // Initialize views
+
+        initializeViews();
+        initializeOnClickListeners();
+    }
+
+    private void initializeViews(){
+        requestQueue = Volley.newRequestQueue(this);
+
         jobTitleInput = findViewById(R.id.job_title_input);
         jobLocationInput = findViewById(R.id.job_location_input);
         jobTypeInput = findViewById(R.id.job_type_input);
         jobPayInput = findViewById(R.id.job_pay_input);
         jobDescriptionInput = findViewById(R.id.job_description_input);
-        jobLatitudeInput = findViewById(R.id.job_latitude_input);
-        jobLongitudeInput = findViewById(R.id.job_longitude_input);
         jobQuestionsInput = findViewById(R.id.job_questions_input);
         postJobButton = findViewById(R.id.post_job_button);
+        back = findViewById(R.id.job_posting_back_button);
 
-        // Handle Post Job button click
-        postJobButton.setOnClickListener(v -> postJob());
+        // Initialize Geocoder
+        geocoder = new Geocoder(this, Locale.getDefault());
     }
 
+    private void initializeOnClickListeners(){
+        postJobButton.setOnClickListener(v -> postJob());
 
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(PostJob.this, EmployerDashboard.class);
+            startActivity(intent);
+        });
+
+    }
 
     private void postJob() {
         // Get input values
+        String jobPosterEmail = UserSession.email;
+        String jobPosterName = UserSession.name;
         String jobTitle = jobTitleInput.getText().toString().trim();
         String jobLocation = jobLocationInput.getText().toString().trim();
         String jobType = jobTypeInput.getText().toString().trim();
         String jobPay = jobPayInput.getText().toString().trim();
         String jobDescription = jobDescriptionInput.getText().toString().trim();
-        String latitudeStr = jobLatitudeInput.getText().toString().trim();
-        String longitudeStr = jobLongitudeInput.getText().toString().trim();
         String questionsStr = jobQuestionsInput.getText().toString().trim();
 
+
         // Validate mandatory fields
-        if (jobTitle.isEmpty() || jobLocation.isEmpty() || jobType.isEmpty() || jobPay.isEmpty()
-                || jobDescription.isEmpty() || latitudeStr.isEmpty() || longitudeStr.isEmpty() || questionsStr.isEmpty()) {
+        if (jobTitle.isEmpty() || jobLocation.isEmpty() || jobType.isEmpty() || jobPay.isEmpty() || jobDescription.isEmpty() || questionsStr.isEmpty()) {
             Toast.makeText(this, "Please fill all mandatory fields.", Toast.LENGTH_LONG).show();
-            toast_msg = "Please fill all mandatory fields.";
             return;
         }
 
-        // Parse latitude and longitude
-        double latitude, longitude;
-        try {
-            latitude = Double.parseDouble(latitudeStr);
-            longitude = Double.parseDouble(longitudeStr);
-            toast_msg = "";
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid latitude or longitude.", Toast.LENGTH_LONG).show();
-            toast_msg = "Invalid latitude or longitude.";
-            return;
-        }
+        // Get coordinates from location
+        getLocationCoordinates(jobLocation, (latitude, longitude) -> {
+            if (latitude == 0.0 && longitude == 0.0) {
+                Toast.makeText(this, "Could not determine location coordinates. Please check the address.", Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
 
         // Split questions into a List
         List<String> questions = Arrays.asList(questionsStr.split(","));
 
-        // Save job details to Firebase and check preferences after posting
-        saveJobToFirebase(jobTitle, jobLocation, jobType, jobPay, jobDescription, latitude, longitude, questions);
+        // Save job details to Firebase
+        saveJobToFirebase(jobPosterEmail, jobPosterName, jobTitle, jobLocation, jobType, jobPay, jobDescription, latitude, longitude, questions);
+    }
+
+    private void getLocationCoordinates(String location, LocationCallback callback) {
+        new Thread(() -> {
+            try {
+                List<Address> addresses = geocoder.getFromLocationName(location, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    Address address = addresses.get(0);
+                    double latitude = address.getLatitude();
+                    double longitude = address.getLongitude();
+
+                    runOnUiThread(() -> callback.onLocationFound(latitude, longitude));
+                } else {
+                    runOnUiThread(() -> callback.onLocationFound(0, 0));
+                }
+            } catch (IOException e) {
+                Log.e("PostJob", "Geocoding error: " + e.getMessage());
+                runOnUiThread(() -> callback.onLocationFound(0, 0));
+            }
+        }).start();
     }
 
 
-    private void saveJobToFirebase(String jobTitle, String jobLocation, String jobType, String jobPay,
-                                   String jobDescription, double latitude, double longitude, List<String> questions) {
+    private void saveJobToFirebase(String jobPosterEmail, String jobPosterName, String jobTitle, String jobLocation, String jobType, String jobPay, String jobDescription, double latitude, double longitude, List<String> questions){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference jobsRef = database.getReference("jobs");
 
@@ -129,6 +144,8 @@ public class PostJob extends AppCompatActivity {
 
         // Create a map to store job data
         HashMap<String, Object> jobData = new HashMap<>();
+        jobData.put("posted by", jobPosterName);
+        jobData.put("poster's email", jobPosterEmail);
         jobData.put("title", jobTitle);
         jobData.put("location", jobLocation);
         jobData.put("type", jobType);
@@ -137,6 +154,7 @@ public class PostJob extends AppCompatActivity {
         jobData.put("latitude", latitude);
         jobData.put("longitude", longitude);
         jobData.put("questions", questions);
+
 
         // Log the job data
         Log.d("PostJob", "Job Data: " + jobData.toString());
@@ -174,9 +192,6 @@ public class PostJob extends AppCompatActivity {
             Toast.makeText(this, "Failed to generate job ID.", Toast.LENGTH_LONG).show();
         }
     }
-
-
-
 
     private void sendNotification(String authToken,String jobTitle, String jobLocation) {
         try {
@@ -243,6 +258,7 @@ public class PostJob extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void getFirebaseToken(AccessTokenListener listener) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
@@ -257,6 +273,7 @@ public class PostJob extends AppCompatActivity {
                     listener.onAccessTokenReceived(authToken);
                 });
     }
+
     private String getOAuthToken() {
         try {
             // Open the service account credentials file from the assets folder
@@ -277,8 +294,7 @@ public class PostJob extends AppCompatActivity {
         }
     }
 
-
-
-
-
+    interface LocationCallback {
+        void onLocationFound(double latitude, double longitude);
+    }
 }

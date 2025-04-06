@@ -4,17 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Job implements Serializable {
-    private String title;
-    private String location;
-    private String description;
-    private String type;
-    private String pay;
-    private double latitude;
-    private double longitude;
+    private String title, location, description, type, pay, posterName, posterEmail;
+    private double latitude,longitude;
     private List<String> questions;
 
     public Job(String title, String location, String description, String type, String pay,
-               double latitude, double longitude, List<String> questions) {
+               double latitude, double longitude, List<String> questions, String posterEmail, String posterName) {
         this.title = title;
         this.location = location;
         this.description = description;
@@ -23,6 +18,8 @@ public class Job implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.questions = questions;
+        this.posterEmail = posterEmail;
+        this.posterName = posterName;
     }
 
     public String getTitle() {
@@ -55,6 +52,14 @@ public class Job implements Serializable {
 
     public List<String> getQuestions() {
         return questions;
+    }
+
+    public String getPosterName() {
+        return posterName;
+    }
+
+    public String getPosterEmail() {
+        return posterEmail;
     }
 
     @Override

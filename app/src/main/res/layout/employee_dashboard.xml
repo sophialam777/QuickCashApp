@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#E0E0E0"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QUICK CASH"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dashboard_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Employee Dashboard"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+
+    <Button
+        android:id="@+id/edit_profile_employee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit My Profile"
+        android:layout_below="@id/dashboard_title"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/job_postings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job Postings"
+        android:layout_below="@id/edit_profile_employee"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/jobsearch_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job Search"
+        android:layout_below="@id/job_postings"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

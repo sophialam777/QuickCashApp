@@ -21,55 +21,39 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JobListingsActivity extends AppCompatActivity {
+public class MyPostings extends AppCompatActivity {
 
     private ListView jobListView;
     private ArrayList<Job> jobList;
     private ArrayAdapter<Job> adapter;
-    private Button viewMapButton, goBackButton;
+    private Button goBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_listings);
+        setContentView(R.layout.my_postings);
 
-        initializeViews();
-        initializeOnClickListeners();
-        fetchJobsFromFirebase();
-    }
-
-    private void initializeViews(){
-        jobListView = findViewById(R.id.job_list_view);
-        viewMapButton = findViewById(R.id.view_map_button);
-        goBackButton = findViewById(R.id.gobackbutton);
+        jobListView = findViewById(R.id.my_postings_list);
+        goBackButton = findViewById(R.id.my_postings_back_button);
 
         jobList = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, jobList);
         jobListView.setAdapter(adapter);
-    }
 
-    private void initializeOnClickListeners(){
+        // Fetch jobs from Firebase
+        fetchJobsFromFirebase();
+
         // Handle item click to show job details
         jobListView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
             Job selectedJob = jobList.get(position);
-            Intent intent = new Intent(JobListingsActivity.this, JobDetailsActivity.class);
+            Intent intent = new Intent(MyPostings.this, ReceivedApplications.class);
             intent.putExtra("job", selectedJob); // Pass the selected job
             startActivity(intent);
         });
 
-        viewMapButton.setOnClickListener(v -> {
-            if (jobList.isEmpty()) {
-                Log.e("JobListingsActivity", "jobList is empty");
-            } else {
-                Intent intent = new Intent(JobListingsActivity.this, GoogleMapsActivity.class);
-                intent.putExtra("jobList", jobList); // Pass the job list to GoogleMapsActivity
-                startActivity(intent);
-            }
-        });
-
         goBackButton.setOnClickListener(v -> {
             // Navigate back to the homepage
-            Intent intent = new Intent(JobListingsActivity.this, EmployeeDashboard.class);
+            Intent intent = new Intent(MyPostings.this, EmployerDashboard.class);
             startActivity(intent);
             finish();
         });
@@ -96,17 +80,21 @@ public class JobListingsActivity extends AppCompatActivity {
                     String posterEmail = jobSnapshot.child("poster's email").getValue(String.class);
                     String posterName = jobSnapshot.child("posted by").getValue(String.class);
 
-                    // Create a Job object and add it to the list
-                    Job job = new Job(title, location, description, type, pay, latitude, longitude, questions, posterEmail, posterName);
-                    jobList.add(job);
+                    if(posterName!=null && posterEmail!=null){
+                        if(posterName.equals(UserSession.name.trim()) && posterEmail.equals(UserSession.email.trim())){
+                            // Create a Job object and add it to the list
+                            Job job = new Job(title, location, description, type, pay, latitude, longitude, questions, posterEmail, posterName);
+                            jobList.add(job);
+                        }
+                    }
                 }
                 adapter.notifyDataSetChanged(); // Refresh the list
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("JobListingsActivity", "Failed to fetch jobs: " + error.getMessage());
-                Toast.makeText(JobListingsActivity.this, "Failed to fetch jobs.", Toast.LENGTH_LONG).show();
+                Log.e("EmployerApplicationsActivity", "Failed to fetch jobs: " + error.getMessage());
+                Toast.makeText(MyPostings.this, "Failed to fetch jobs.", Toast.LENGTH_LONG).show();
             }
         });
     }
