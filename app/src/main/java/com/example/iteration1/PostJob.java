@@ -42,6 +42,7 @@ public class PostJob extends AppCompatActivity {
     private static final String PUSH_NOTIFICATION_ENDPOINT = "https://fcm.googleapis.com/v1/projects/quickcash3130-4607d/messages:send";
     private Geocoder geocoder;
     private double latitude, longitude;
+    static String toast_msg;
 
 
     @Override
@@ -96,6 +97,7 @@ public class PostJob extends AppCompatActivity {
         // Validate mandatory fields
         if (jobTitle.isEmpty() || jobLocation.isEmpty() || jobType.isEmpty() || jobPay.isEmpty() || jobDescription.isEmpty() || questionsStr.isEmpty()) {
             Toast.makeText(this, "Please fill all mandatory fields.", Toast.LENGTH_LONG).show();
+            toast_msg = "Please fill all mandatory fields.";
             return;
         }
 
@@ -103,6 +105,7 @@ public class PostJob extends AppCompatActivity {
         getLocationCoordinates(jobLocation, (latitude, longitude) -> {
             if (latitude == 0.0 && longitude == 0.0) {
                 Toast.makeText(this, "Could not determine location coordinates. Please check the address.", Toast.LENGTH_LONG).show();
+                toast_msg = "Could not determine location coordinates. Please check the address.";
                 return;
             }
         });
@@ -166,6 +169,7 @@ public class PostJob extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("PostJob", "Job posted successfully!");
                             Toast.makeText(this, "Job posted successfully!", Toast.LENGTH_SHORT).show();
+                            toast_msg = null;
 
 
                             getFirebaseToken(new AccessTokenListener() {
@@ -178,6 +182,7 @@ public class PostJob extends AppCompatActivity {
                                 public void onAccessTokenError(Exception exception) {
                                     Log.e("PostJob", "Error retrieving token: " + exception.getMessage());
                                     Toast.makeText(PostJob.this, "Failed to get FCM token", Toast.LENGTH_SHORT).show();
+                                    toast_msg = "Failed to get FCM token";
                                 }
                             });
 
@@ -185,11 +190,13 @@ public class PostJob extends AppCompatActivity {
                         } else {
                             Log.e("PostJob", "Failed to post job: " + task.getException().getMessage());
                             Toast.makeText(this, "Failed to post job. Please try again.", Toast.LENGTH_LONG).show();
+                            toast_msg = "Failed to post job. Please try again.";
                         }
                     });
         } else {
             Log.e("PostJob", "Failed to generate job ID.");
             Toast.makeText(this, "Failed to generate job ID.", Toast.LENGTH_LONG).show();
+            toast_msg = "Failed to generate job ID.";
         }
     }
 
@@ -223,6 +230,7 @@ public class PostJob extends AppCompatActivity {
                     response -> {
                         Log.d("NotificationResponse", "Response: " + response.toString());
                         Toast.makeText(this, "Notification Sent Successfully", Toast.LENGTH_SHORT).show();
+                        toast_msg = "Notification Sent Successfully";
                     },
                     error -> {
                         Log.e("NotificationError", "Error Response: " + error.toString());
@@ -231,6 +239,7 @@ public class PostJob extends AppCompatActivity {
                             Log.e("NotificationError", "Error Data: " + new String(error.networkResponse.data));
                         }
                         Toast.makeText(this, "Failed to Send Notification", Toast.LENGTH_SHORT).show();
+                        toast_msg = "Failed to Send Notification";
                         error.printStackTrace();
                     }) {
                 @Override
@@ -255,6 +264,7 @@ public class PostJob extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e("NotificationJSONException", "Error creating notification JSON: " + e.getMessage());
             Toast.makeText(this, "Error creating notification payload", Toast.LENGTH_SHORT).show();
+            toast_msg = "Error creating notification payload";
             e.printStackTrace();
         }
     }
