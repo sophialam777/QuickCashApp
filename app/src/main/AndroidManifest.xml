@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
 
     <application
         android:allowBackup="true"
@@ -44,7 +46,10 @@
             android:name=".ForgotPassword"
             android:exported="true" />
         <activity
-            android:name=".homepage"
+            android:name=".EmployeeDashboard"
+            android:exported="true" />
+        <activity
+            android:name=".EmployerDashboard"
             android:exported="true" />
         <activity
             android:name=".MyAccount"
@@ -64,6 +69,41 @@
         <activity
             android:name=".SearchResultActivity"
             android:exported="true" />
+        <activity
+            android:name=".MyPostings"
+            android:exported="true" />
+        <activity
+            android:name=".ReceivedApplications"
+            android:exported="true" />
+        <activity
+            android:name=".ViewApplication"
+            android:exported="true" />
+        <activity
+            android:name=".OfferJob"
+            android:exported="true" />
+        <activity
+            android:name=".RatingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ViewOffer"
+            android:exported="true" />
+        <activity
+            android:name=".EmployeeApplicationStatusActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="true" />
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:name=".PreferredEmployeeActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
+

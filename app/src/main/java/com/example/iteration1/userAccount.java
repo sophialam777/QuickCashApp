@@ -1,7 +1,7 @@
 package com.example.iteration1;
 
 public class userAccount {
-    String name, email, password, contact, role, userID;
+    String name, email, password, contact, role, userID, fcmToken;
 
     public userAccount(){}
 
@@ -30,7 +30,5 @@ public class userAccount {
     public String getUserID(){
         return this.userID;
     }
-
-
-
+    public String getFCMToken(){ return this.fcmToken; }
 }

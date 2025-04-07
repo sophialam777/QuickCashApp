@@ -33,6 +33,12 @@ public class JobListingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_listings);
 
+        initializeViews();
+        initializeOnClickListeners();
+        fetchJobsFromFirebase();
+    }
+
+    private void initializeViews(){
         jobListView = findViewById(R.id.job_list_view);
         viewMapButton = findViewById(R.id.view_map_button);
         goBackButton = findViewById(R.id.gobackbutton);
@@ -40,10 +46,9 @@ public class JobListingsActivity extends AppCompatActivity {
         jobList = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, jobList);
         jobListView.setAdapter(adapter);
+    }
 
-        // Fetch jobs from Firebase
-        fetchJobsFromFirebase();
-
+    private void initializeOnClickListeners(){
         // Handle item click to show job details
         jobListView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
             Job selectedJob = jobList.get(position);
@@ -64,7 +69,7 @@ public class JobListingsActivity extends AppCompatActivity {
 
         goBackButton.setOnClickListener(v -> {
             // Navigate back to the homepage
-            Intent intent = new Intent(JobListingsActivity.this, homepage.class);
+            Intent intent = new Intent(JobListingsActivity.this, EmployeeDashboard.class);
             startActivity(intent);
             finish();
         });
@@ -88,9 +93,11 @@ public class JobListingsActivity extends AppCompatActivity {
                     double latitude = jobSnapshot.child("latitude").getValue(Double.class);
                     double longitude = jobSnapshot.child("longitude").getValue(Double.class);
                     List<String> questions = (List<String>) jobSnapshot.child("questions").getValue();
+                    String posterEmail = jobSnapshot.child("poster's email").getValue(String.class);
+                    String posterName = jobSnapshot.child("posted by").getValue(String.class);
 
                     // Create a Job object and add it to the list
-                    Job job = new Job(title, location, description, type, pay, latitude, longitude, questions);
+                    Job job = new Job(title, location, description, type, pay, latitude, longitude, questions, posterEmail, posterName);
                     jobList.add(job);
                 }
                 adapter.notifyDataSetChanged(); // Refresh the list

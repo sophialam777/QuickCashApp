@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#E0E0E0"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QUICK CASH"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dashboard_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Employer Dashboard"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+
+    <Button
+        android:id="@+id/edit_profile_employer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit My Profile"
+        android:layout_below="@id/dashboard_title"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/post_job_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post Job"
+        android:layout_below="@id/edit_profile_employer"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/review_applications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Review Job Applications"
+        android:layout_below="@id/post_job_button"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/payEmployee_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pay Employee"
+        android:layout_below="@id/review_applications"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/plist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Preferred Employee List"
+        android:layout_below="@id/payEmployee_button"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/employer_rate_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rate Users"
+        android:layout_below="@id/plist"
+        android:layout_marginTop="10dp"/>
+</RelativeLayout>

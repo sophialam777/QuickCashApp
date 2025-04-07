@@ -8,11 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iteration1.validator.Job;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,23 +22,21 @@ import java.util.List;
 public class JobDetailsActivity extends AppCompatActivity {
 
     public Uri selectedResumeUri;
-    private TextView jobTitle;
-    private TextView jobDescription;
-    private TextView jobType;
-    private TextView jobPay;
-    private TextView jobLocation;
-    private Button applyButton;
-    private Button goBackButton;
-    private EditText question1Input;
-    private EditText question2Input;
-    private TextView question1Label;
-    private TextView question2Label;
+    private TextView jobTitle, jobDescription, jobType, jobPay, jobLocation,question1Label, question2Label;
+    private Button applyButton, goBackButton, savePreferencesButton;
+    private EditText question1Input, question2Input;
+    private Job selectedJob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_details);
 
+        initializeViews();
+        intitializeOnClickListeners();
+    }
+
+    private void initializeViews(){
         // Initialize views
         jobTitle = findViewById(R.id.job_title);
         jobDescription = findViewById(R.id.job_description);
@@ -49,9 +49,10 @@ public class JobDetailsActivity extends AppCompatActivity {
         question1Input = findViewById(R.id.question1_input);
         question2Label = findViewById(R.id.question2_label);
         question2Input = findViewById(R.id.question2_input);
+        savePreferencesButton = findViewById(R.id.save_preferences_button);
 
         // Get job object from Intent
-        Job selectedJob = (Job) getIntent().getSerializableExtra("job");
+        selectedJob = (Job) getIntent().getSerializableExtra("job");
         if (selectedJob != null) {
             jobTitle.setText(selectedJob.getTitle());
             jobDescription.setText(selectedJob.getDescription());
@@ -73,7 +74,9 @@ public class JobDetailsActivity extends AppCompatActivity {
                 }
             }
         }
+    }
 
+    private void intitializeOnClickListeners(){
         // Attach Resume button
         findViewById(R.id.attach_resume_button).setOnClickListener(v -> openFilePicker());
 
@@ -92,10 +95,18 @@ public class JobDetailsActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        savePreferencesButton.setOnClickListener(v -> {
+            if (selectedJob != null) {
+                savePreferences(selectedJob);
+            } else {
+                Toast.makeText(this, "Job details not available.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void openFilePicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/pdf", "application/msword"});
         startActivityForResult(intent, 1);
@@ -121,25 +132,21 @@ public class JobDetailsActivity extends AppCompatActivity {
     }
 
     private void saveApplication(Job job, String answer1, String answer2) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference applicationsRef = database.getReference("applications");
+        DatabaseReference applicationsRef = FirebaseDatabase.getInstance().getReference("applications");
 
         // Unique key for the application
         String applicationId = applicationsRef.push().getKey();
 
-        // Current user email
-        String applicantEmail = UserSession.email; // Example: "john@example.com"
+        // Current user info
+        String applicantEmail = UserSession.email;
+        String applicantName = UserSession.name;
+        String fcmToken = UserSession.fcmToken;
 
         // Store application data
-        HashMap<String, Object> applicationData = new HashMap<>();
-        applicationData.put("jobTitle", job.getTitle());
-        applicationData.put("applicantEmail", applicantEmail);
-        applicationData.put("resumeUri", selectedResumeUri.toString());
-        applicationData.put("answer1", answer1);
-        applicationData.put("answer2", answer2);
+        JobApplication newApplication = new JobApplication(applicationId, job.getTitle(), job.getPosterEmail(), applicantEmail, selectedResumeUri.toString(), answer1, answer2, applicantName, "Submitted", fcmToken);
 
         if (applicationId != null) {
-            applicationsRef.child(applicationId).setValue(applicationData)
+            applicationsRef.child(applicationId).setValue(newApplication)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(this, "Application submitted successfully!", Toast.LENGTH_SHORT).show();
@@ -150,6 +157,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,5 +167,28 @@ public class JobDetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Resume selected: " + selectedResumeUri.toString(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void savePreferences(Job job) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Get user's email as document ID
+        String applicantEmail = UserSession.email; // e.g., "mohammedzaksaj@gmail.com"
+
+        // Create preferences data
+        HashMap<String, Object> preferences = new HashMap<>();
+        preferences.put("pay", job.getPay());   // Get pay from selected job
+        preferences.put("type", job.getType()); // Get type from selected job
+
+        // Save preferences under "userpref" collection using email as document ID
+        db.collection("userpref")
+                .document(applicantEmail.replace(".", ",")) // Replace dots with commas
+                .set(preferences)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Preferences saved successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to save preferences. Please try again.", Toast.LENGTH_LONG).show();
+                });
     }
 }

@@ -26,27 +26,18 @@
         android:id="@+id/dashboard_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dashboard"
+        android:text="Employee Dashboard"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"/>
 
     <Button
-        android:id="@+id/edit_profile"
+        android:id="@+id/edit_profile_employee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit My Profile"
-        android:background="#E0E0E0"
         android:layout_below="@id/dashboard_title"
-        android:layout_marginTop="20dp"/>
-
-    <Button
-        android:id="@+id/messages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Messages"
-        android:layout_below="@id/edit_profile"
         android:layout_marginTop="10dp"/>
 
     <Button
@@ -54,31 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Job Postings"
-        android:layout_below="@id/messages"
-        android:layout_marginTop="10dp"/>
-
-    <Button
-        android:id="@+id/post_job_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Post Job"
-        android:layout_below="@id/job_postings"
-        android:layout_marginTop="10dp" />
-
-    <Button
-        android:id="@+id/my_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My Location"
-        android:layout_below="@id/post_job_button"
-        android:layout_marginTop="10dp"/>
-
-    <Button
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Settings"
-        android:layout_below="@id/my_location"
+        android:layout_below="@id/edit_profile_employee"
         android:layout_marginTop="10dp"/>
 
     <Button
@@ -86,15 +53,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Job Search"
-        android:layout_below="@id/settings"
+        android:layout_below="@id/job_postings"
         android:layout_marginTop="10dp"/>
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/employee_rate_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settings"
-        android:layout_marginTop="68dp"
-        android:text="Logout" />
+        android:text="Rate Users"
+        android:layout_below="@id/jobsearch_button"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

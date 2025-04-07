@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import androidx.annotation.NonNull;
 
 public class Registration extends AppCompatActivity {
@@ -37,6 +39,7 @@ public class Registration extends AppCompatActivity {
     private Spinner spinnerRole;
     private LinearLayout errorLayout;
     private TextView errorMessage;
+    private Button btn_create_account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,11 @@ public class Registration extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        initializeViews();
+        initializeOnClickListeners();
+    }
+
+    private void initializeViews(){
         // Initialize views
         etName = findViewById(R.id.et_name);
         etEmail = findViewById(R.id.et_email);
@@ -54,13 +62,15 @@ public class Registration extends AppCompatActivity {
         spinnerRole = findViewById(R.id.spinner_role);
         errorLayout = findViewById(R.id.error_layout);
         errorMessage = findViewById(R.id.error_message);
+        btn_create_account = findViewById(R.id.btn_create_account);
 
         // Bind the role options from strings.xml to the spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.role_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRole.setAdapter(adapter);
+    }
 
-        Button btn_create_account = findViewById(R.id.btn_create_account);
+    private void initializeOnClickListeners(){
         btn_create_account.setOnClickListener(view -> validateInputs());
     }
 
@@ -118,6 +128,17 @@ public class Registration extends AppCompatActivity {
                             String userID = user.getUid();
                             userAccount newAcc = new userAccount(name, email.toLowerCase(), password, contact, role, userID);
 
+                            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task2 -> {
+                                if (!task2.isSuccessful()) {
+                                    Log.w("FCM", "Fetching FCM token failed", task2.getException());
+                                    return;
+                                }
+
+                                // Get new FCM registration token
+                                String token = task2.getResult();
+                                storeTokenInDatabase(user.getUid(), token);
+                            });
+
                             // Add the user details to Firebase Realtime Database
                             dbref.child("users").child(userID).setValue(newAcc)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -127,8 +148,6 @@ public class Registration extends AppCompatActivity {
                                                 // Success, user added to database
                                                 Log.d("FirebaseDB", "User added successfully");
                                                 Toast.makeText(Registration.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
-
-
                                                 Email.sendConfirmationEmail(email, name);
 
                                                 // Navigate to Login screen
@@ -181,5 +200,10 @@ public class Registration extends AppCompatActivity {
     private void connectDB(){
         database = FirebaseDatabase.getInstance(DBURL);
         dbref = database.getReference();
+    }
+
+    private static void storeTokenInDatabase(String userId, String token) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        userRef.child("fcmToken").setValue(token);
     }
 }
