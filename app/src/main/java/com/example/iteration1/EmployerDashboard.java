@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EmployerDashboard extends AppCompatActivity {
 
-    private Button myAccount, payButton, reviewApplications, postJob, perferlist;
+    private Button myAccount, payButton, reviewApplications, postJob, perferlist, rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,12 @@ public class EmployerDashboard extends AppCompatActivity {
             Intent intent = new Intent(EmployerDashboard.this, PreferredEmployeeActivity.class);
             startActivity(intent);
 
+        });
+
+        rate = findViewById(R.id.employer_rate_btn);
+        rate.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RatingActivity.class);
+            startActivity(intent);
         });
     }
 

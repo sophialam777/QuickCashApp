@@ -8,17 +8,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class RatingActivity extends AppCompatActivity {
 
     private RatingBar ratingBar;
-    private EditText feedbackInput;
+    private EditText feedbackInput, ratedUser;
     private Button submitButton;
-
-    // The email of the user being rated is passed via Intent extras
-    private String ratedUserEmail;
+    private String user;
+    private boolean found;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +32,48 @@ public class RatingActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.rating_bar);
         feedbackInput = findViewById(R.id.feedback_input);
         submitButton = findViewById(R.id.submit_rating_button);
+        ratedUser = findViewById(R.id.rated_user);
 
-        // Retrieve the email of the user to be rated
-        ratedUserEmail = getIntent().getStringExtra("ratedUserEmail");
-        if (ratedUserEmail == null) {
-            ratedUserEmail = "";
+        checkForUser();
+
+        submitButton.setOnClickListener(v -> {
+            checkForUser();
+        });
+    }
+
+    private void checkForUser(){
+        user = ratedUser.getText().toString().trim();
+
+        if (user == null){
+            Toast.makeText(this, "User not found", Toast.LENGTH_LONG).show();
+            return;
         }
 
-        submitButton.setOnClickListener(v -> submitRating());
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("users");
+        Query query = dbref.orderByChild("email").equalTo(user);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Email exists in the database
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        found = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.err.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+        if (!found){
+            Toast.makeText(this, "User not found", Toast.LENGTH_LONG).show();
+        } else {
+            submitRating();
+        }
     }
 
     private void submitRating() {
@@ -59,7 +97,7 @@ public class RatingActivity extends AppCompatActivity {
         // Assume the current user (from UserSession) is the rater
         String raterUserEmail = UserSession.email;
 
-        Rating rating = new Rating(ratingId, ratedUserEmail, raterUserEmail, ratingValue, feedback);
+        Rating rating = new Rating(ratingId, user, raterUserEmail, ratingValue, feedback);
 
         ratingsRef.child(ratingId).setValue(rating)
                 .addOnCompleteListener(task -> {

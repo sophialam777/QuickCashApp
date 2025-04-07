@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EmployeeDashboard extends AppCompatActivity {
 
-    private Button myAccount;
-    private Button jobListingsButton;
-    private Button jobSearchButton;
+    private Button myAccount, jobListingsButton, jobSearchButton, rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +40,12 @@ public class EmployeeDashboard extends AppCompatActivity {
             // Navigate to the JobSearchActivity when the button is clicked
             verifyLoggedIn();
             Intent intent = new Intent(EmployeeDashboard.this, JobSearchActivity.class);
+            startActivity(intent);
+        });
+
+        rate = findViewById(R.id.employee_rate_btn);
+        rate.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RatingActivity.class);
             startActivity(intent);
         });
     }
