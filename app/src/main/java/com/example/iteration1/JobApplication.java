@@ -1,46 +1,80 @@
 package com.example.iteration1;
 
-public class JobApplication {
-    private String applicationId;
-    private String jobTitle;
-    private String applicantEmail;
-    private String resumeUri;
-    private String answer1;
-    private String answer2;
-    private String status;
+import androidx.annotation.NonNull;
 
-    // Required no-argument constructor for Firebase
-    public JobApplication() {}
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-    public JobApplication(String applicationId, String jobTitle, String applicantEmail, String resumeUri, String answer1, String answer2, String status) {
-        this.applicationId = applicationId;
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class JobApplication implements Serializable {
+
+    private String jobTitle, posterEmail, applicantEmail, resumeUri, answer1, answer2, applicantName, status, fcmToken, applicationID;
+
+    public JobApplication(String applicationID, String jobTitle, String posterEmail, String applicantEmail, String resumeUri, String answer1, String answer2, String applicantName, String status){
         this.jobTitle = jobTitle;
+        this.posterEmail = posterEmail;
         this.applicantEmail = applicantEmail;
         this.resumeUri = resumeUri;
         this.answer1 = answer1;
         this.answer2 = answer2;
+        this.applicantName = applicantName;
         this.status = status;
+        this.applicationID = applicationID;
     }
 
-    // Getters and setters
-    public String getApplicationId() { return applicationId; }
-    public void setApplicationId(String applicationId) { this.applicationId = applicationId; }
+    public JobApplication(String applicationID, String jobTitle, String posterEmail, String applicantEmail, String resumeUri, String answer1, String answer2, String applicantName, String status, String fcmToken){
+        this.jobTitle = jobTitle;
+        this.posterEmail = posterEmail;
+        this.applicantEmail = applicantEmail;
+        this.resumeUri = resumeUri;
+        this.answer1 = answer1;
+        this.answer2 = answer2;
+        this.applicantName = applicantName;
+        this.status = status;
+        this.fcmToken = fcmToken;
+        this.applicationID = applicationID;
+    }
 
-    public String getJobTitle() { return jobTitle; }
-    public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+    public String getPosterEmail(){ return posterEmail; }
+    public String getJobTitle(){ return jobTitle; }
+    public String getApplicantEmail(){ return applicantEmail; }
+    public String getResumeUri(){ return resumeUri; }
+    public String getAnswer1(){ return answer1; }
+    public String getAnswer2(){ return answer2; }
+    public String getApplicantName(){ return applicantName; }
+    public String getStatus(){ return status; }
+    public String getFcmToken(){ return fcmToken; }
+    public String getApplicationID(){ return applicationID; }
+    public void setStatus(String status){
+        this.status = status;
 
-    public String getApplicantEmail() { return applicantEmail; }
-    public void setApplicantEmail(String applicantEmail) { this.applicantEmail = applicantEmail; }
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("applications");
+        Query query = dbref.orderByChild("applicationID").equalTo(applicationID);
 
-    public String getResumeUri() { return resumeUri; }
-    public void setResumeUri(String resumeUri) { this.resumeUri = resumeUri; }
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        String applicationId = snapshot.getKey();
+                        HashMap<String, Object> updates = new HashMap<>();
+                        updates.put("status", status);
+                        dbref.child(applicationId).updateChildren(updates);
+                    }
+                }
+            }
 
-    public String getAnswer1() { return answer1; }
-    public void setAnswer1(String answer1) { this.answer1 = answer1; }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
 
-    public String getAnswer2() { return answer2; }
-    public void setAnswer2(String answer2) { this.answer2 = answer2; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getApplicantInfo(){ return applicantName + " (" + applicantEmail + ")"; }
+    public String toString(){ return applicantName + " (" + applicantEmail + ") - " + status; }
 }

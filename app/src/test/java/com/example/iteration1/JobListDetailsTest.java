@@ -18,31 +18,32 @@ public class JobListDetailsTest {
 
         // Use the new constructor
         Job job = new Job(
-                "Software Engineer",  // title
-                "Halifax",            // location
-                "Develop software",   // description
-                "Full-time",          // type
-                "$30/hour",           // pay
-                44.6452,              // latitude
-                -63.5736,             // longitude
-                questions
+                "Freelance Writer",
+                "Halifax",
+                "Write content for blogs",
+                "Part-time",
+                "$25/article",
+                44.6413,
+                -63.5887,
+                Arrays.asList("Do you have writing samples?"),
+                "xyz987@dal.ca",
+                "m"
         );
 
         double delta = 0.0001;
 
         // Validate new fields
-        assertEquals("Software Engineer", job.getTitle());
+        assertEquals("Freelance Writer", job.getTitle());
         assertEquals("Halifax", job.getLocation());
-        assertEquals("Develop software", job.getDescription());
-        assertEquals("Full-time", job.getType());
-        assertEquals("$30/hour", job.getPay());
-        assertEquals(44.6452, job.getLatitude(), delta);
-        assertEquals(-63.5736, job.getLongitude(), delta);
+        assertEquals("Write content for blogs", job.getDescription());
+        assertEquals("Part-time", job.getType());
+        assertEquals("$25/article", job.getPay());
+        assertEquals(44.6413, job.getLatitude(), delta);
+        assertEquals(-63.5887, job.getLongitude(), delta);
 
         // Validate questions
         assertNotNull(job.getQuestions());
-        assertEquals(2, job.getQuestions().size());
-        assertEquals("Do you have a driver's license?", job.getQuestions().get(0));
-        assertEquals("Are you available weekends?", job.getQuestions().get(1));
+        assertEquals(1, job.getQuestions().size());
+        assertEquals("Do you have writing samples?", job.getQuestions().get(0));
     }
 }

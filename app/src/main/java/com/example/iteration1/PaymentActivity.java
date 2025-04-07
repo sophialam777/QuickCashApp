@@ -22,18 +22,17 @@ import java.math.BigDecimal;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 
-public class PaymenActivity extends AppCompatActivity {
+public class PaymentActivity extends AppCompatActivity {
 
     //UI Elements
     private TextView title;
     private Button payButton;
     private EditText payAmount;
 
-    private static final String TAG = PaymenActivity.class.getName();
+    private static final String TAG = PaymentActivity.class.getName();
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private PayPalConfiguration payPalConfig;
@@ -74,11 +73,11 @@ public class PaymenActivity extends AppCompatActivity {
                 amount), "CAD", "Job Payment", PayPalPayment.PAYMENT_INTENT_SALE);
 
         // Create Paypal Payment activity intent
-        Intent intent = new Intent(this, PaymentActivity.class);
+        Intent intent = new Intent(this, com.paypal.android.sdk.payments.PaymentActivity.class);
         // Adding paypal configuration to the intent
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, payPalConfig);
         // Adding paypal payment to the intent
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
+        intent.putExtra(com.paypal.android.sdk.payments.PaymentActivity.EXTRA_PAYMENT, payPalPayment);
         // Starting Activity Request launcher
         activityResultLauncher.launch(intent);
     }
@@ -88,7 +87,7 @@ public class PaymenActivity extends AppCompatActivity {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        PaymentConfirmation confirmation = result.getData().getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                        PaymentConfirmation confirmation = result.getData().getParcelableExtra(com.paypal.android.sdk.payments.PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                         if (confirmation != null) {
                             try {
                                 // Get the payment details

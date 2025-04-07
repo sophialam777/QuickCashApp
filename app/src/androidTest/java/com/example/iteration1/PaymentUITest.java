@@ -7,10 +7,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class PaymentUITest {
@@ -18,7 +16,7 @@ public class PaymentUITest {
 
     @Test
     public void testUIElementsDisplayed() {
-        ActivityScenario.launch(PaymenActivity.class);
+        ActivityScenario.launch(PaymentActivity.class);
 
         onView(withId(R.id.textView2)).check(matches(withText("Payment")));
 
@@ -31,7 +29,7 @@ public class PaymentUITest {
 
     @Test
     public void testNoAmountEntered() {
-        ActivityScenario.launch(PaymenActivity.class);
+        ActivityScenario.launch(PaymentActivity.class);
 
         onView(withId(R.id.button)).perform(click());
 

@@ -1,6 +1,9 @@
 package com.example.iteration1;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,6 +23,8 @@ public class EmployeeApplicationStatusActivity extends AppCompatActivity {
     private ListView listView;
     private ApplicationStatusAdapter adapter;
     private ArrayList<JobApplication> applicationList;
+    private Button back;
+    private JobApplication selectedApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,22 @@ public class EmployeeApplicationStatusActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         loadApplications();
+
+        back = findViewById(R.id.my_applications_back_button);
+        back.setOnClickListener(v ->{
+            Intent intent = new Intent(this, MyAccount.class);
+            startActivity(intent);
+        });
+
+        // Handle item click to view job offer
+        listView.setOnItemClickListener((AdapterView<?> parent, android.view.View view, int position, long id) -> {
+            selectedApplication = applicationList.get(position);
+            if(selectedApplication.getStatus().equals("Offered Job")) {
+                Intent intent = new Intent(EmployeeApplicationStatusActivity.this, ViewOffer.class);
+                intent.putExtra("application", selectedApplication); // Pass the selected application
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadApplications() {
@@ -51,10 +72,13 @@ public class EmployeeApplicationStatusActivity extends AppCompatActivity {
                         String answer1 = appSnapshot.child("answer1").getValue(String.class);
                         String answer2 = appSnapshot.child("answer2").getValue(String.class);
                         String status = appSnapshot.child("status").getValue(String.class);
+                        String posterEmail = appSnapshot.child("posterEmail").getValue(String.class);
+                        String applicantName = appSnapshot.child("applicantName").getValue(String.class);
+
                         if (status == null) {
                             status = "Submitted";
                         }
-                        JobApplication application = new JobApplication(applicationId, jobTitle, applicantEmail, resumeUri, answer1, answer2, status);
+                        JobApplication application = new JobApplication(applicationId, jobTitle, posterEmail, applicantEmail, resumeUri, answer1, answer2, applicantName, status);
                         applicationList.add(application);
                     }
                 }

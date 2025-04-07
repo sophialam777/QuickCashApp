@@ -5,12 +5,14 @@ import com.example.iteration1.validator.Job;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class JobApplicationSubmissionAcceptanceTest {
 
     @Test
@@ -24,7 +26,9 @@ public class JobApplicationSubmissionAcceptanceTest {
                 "$25/article",
                 44.6413,
                 -63.5887,
-                Arrays.asList("Do you have writing samples?")
+                Arrays.asList("Do you have writing samples?"),
+                "xyz987@dal.ca",
+                "m"
         );
         Uri resumeUri = Uri.parse("file://fake/resume.pdf");
         String answer1 = "Yes, here are my samples";
@@ -40,14 +44,16 @@ public class JobApplicationSubmissionAcceptanceTest {
     public void testMissingRequiredFields() {
         // Given a valid job but missing resume or missing answer
         Job testJob = new Job(
-                "Dog Walker",
-                "Downtown",
-                "Walk dogs around city center",
-                "Casual",
-                "$15/hour",
-                44.6452,
-                -63.5736,
-                Arrays.asList("Are you comfortable with large dogs?")
+                "Freelance Writer",
+                "Halifax",
+                "Write content for blogs",
+                "Part-time",
+                "$25/article",
+                44.6413,
+                -63.5887,
+                Arrays.asList("Do you have writing samples?"),
+                "xyz987@dal.ca",
+                "m"
         );
         Uri resumeUri = null;  // not attached
         String answer1 = "";   // not answered

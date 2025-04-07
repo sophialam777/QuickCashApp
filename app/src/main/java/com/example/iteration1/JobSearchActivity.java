@@ -1,34 +1,19 @@
 package com.example.iteration1;
 import android.content.Intent;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class JobSearchActivity extends AppCompatActivity {
 
         private String[] jobTypeOptions = {"Any" ,"Part-time","Full-time"};
         private String[] minSalaryOptions = {"Any","$9/hr","$10/hr","$11/hr","$12/hr","$13/hr","$14/hr","$15/hr","$16/hr","$17/hr","$18/hr","$19/hr","$20/hr"};
-
         private String[] locationOptions = { "Any","Online","Halifax","Fairview (North End)","North End Halifax","Chain Lake","Point Pleasant Park","Dalhousie University","Larry Uteck","Bedford","Halifax Shopping Centre","St. Mary’s University"};
-
-        private Spinner jobTypeSpinner;
-
-        private Spinner minSalarySpinner;
-
-        private Spinner  locationSpinner;
-
-        private Button searchButton;
-        private Button backButton;
+        private Spinner jobTypeSpinner, minSalarySpinner, locationSpinner;
+        private Button searchButton, backButton;
 
 
         @Override
@@ -58,7 +43,7 @@ public class JobSearchActivity extends AppCompatActivity {
                 //back button eventlisnter
                 backButton .setOnClickListener(v -> {
                         // Navigate to the homepage when the button is clicked
-                        Intent intent = new Intent(JobSearchActivity.this, homepage.class);
+                        Intent intent = new Intent(JobSearchActivity.this, EmployeeDashboard.class);
                         startActivity(intent);
                 });
 
@@ -81,8 +66,4 @@ public class JobSearchActivity extends AppCompatActivity {
                 String[] chosenOptions = {chosenJobType ,chosenMinSalary, chosenLocation};
                 return chosenOptions;
         }
-
-
 }
-
-

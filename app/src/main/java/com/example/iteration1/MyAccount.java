@@ -2,6 +2,7 @@ package com.example.iteration1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,20 +22,22 @@ import com.google.firebase.database.ValueEventListener;
 public class MyAccount extends AppCompatActivity {
 
     private TextView ratingTextView;
+    private Button logout, viewApplications, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.my_account);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         initializeAccountInfo();
         initializeOnClickListener();
         loadUserRating();
+
+        if(UserSession.role.equals("Employer")){
+            viewApplications.setVisibility(View.INVISIBLE);
+        } else {
+            viewApplications.setVisibility(View.VISIBLE);
+        }
     }
 
     public void initializeAccountInfo(){
@@ -46,20 +49,35 @@ public class MyAccount extends AppCompatActivity {
 
     public void initializeOnClickListener(){
         // Logout button
-        Button logout = findViewById(R.id.logout_btn);
+        logout = findViewById(R.id.logout_btn);
         logout.setOnClickListener(v -> {
             UserSession.logout();
-            // Navigate to Login activity (implementation not shown)
+            Intent intent = new Intent(MyAccount.this, Login.class);
+            startActivity(intent);
         });
 
-
-
         // New Button: My Applications
-        Button viewApplications = findViewById(R.id.btn_view_applications);
+        viewApplications = findViewById(R.id.btn_view_applications);
         viewApplications.setOnClickListener(v -> {
             Intent intent = new Intent(MyAccount.this, EmployeeApplicationStatusActivity.class);
             startActivity(intent);
         });
+
+        back = findViewById(R.id.my_account_back_button);
+        back.setOnClickListener(v -> {
+            Intent intent;
+            if(UserSession.role.equals("Employee")){
+                intent = new Intent(MyAccount.this, EmployeeDashboard.class);
+            } else if (UserSession.role.equals("Employer")){
+                intent = new Intent(MyAccount.this, EmployerDashboard.class);
+            } else {
+                Toast.makeText(this, "Error, redirecting user to login page", Toast.LENGTH_LONG).show();
+                intent = new Intent(MyAccount.this, Login.class);
+                UserSession.logout();
+            }
+            startActivity(intent);
+        });
+
     }
 
     private void loadUserRating() {
