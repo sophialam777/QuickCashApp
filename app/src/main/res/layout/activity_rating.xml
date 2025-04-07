@@ -15,6 +15,13 @@
         android:textSize="24sp"
         android:layout_marginBottom="16dp"/>
 
+    <EditText
+        android:id="@+id/rated_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email of user"
+        android:layout_marginBottom="16dp"/>
+
     <RatingBar
         android:id="@+id/rating_bar"
         android:layout_width="wrap_content"

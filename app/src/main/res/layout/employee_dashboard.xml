@@ -56,4 +56,12 @@
         android:layout_below="@id/job_postings"
         android:layout_marginTop="10dp"/>
 
+    <Button
+        android:id="@+id/employee_rate_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rate Users"
+        android:layout_below="@id/jobsearch_button"
+        android:layout_marginTop="10dp"/>
+
 </RelativeLayout>
